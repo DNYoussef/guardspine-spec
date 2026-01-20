@@ -125,8 +125,17 @@ This specification is open for community input. To propose changes:
 
 | Implementation | Language | Status |
 |----------------|----------|--------|
-| [guardspine-verify](https://github.com/guardspine/guardspine-verify) | Python | Official |
+| [guardspine-verify](https://github.com/DNYoussef/guardspine-verify) | Python | Official |
 | _Your implementation here_ | | |
+
+## Important Disclaimers
+
+**This specification provides evidence infrastructure, not compliance certification.**
+
+- Bundles support audits; they don't replace auditor judgment
+- Hash chains detect tampering; they don't prevent all attacks
+- Control mappings are supportive metadata, not certification
+- See [CLAIMS_GUARDRAIL.md](CLAIMS_GUARDRAIL.md) for detailed guidance
 
 ## License
 
@@ -134,4 +143,4 @@ Apache 2.0 - See [LICENSE](LICENSE)
 
 ---
 
-**GuardSpine**: Verifiable governance evidence you don't have to trust.
+**GuardSpine**: Evidence infrastructure for the AI office.
