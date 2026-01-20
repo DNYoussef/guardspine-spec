@@ -1,0 +1,254 @@
+{
+  "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
+  "bead_id": "BEAD-2024-0142",
+  "artifact_id": "github:acme/payments-api/src/api/payments.py",
+  "from_version_id": "a1b2c3d",
+  "to_version_id": "e4f5g6h",
+  "risk_tier": "L3",
+  "scope": {
+    "assertion_type": "change_approval",
+    "assertion_text": "Code change to payment processing logic reviewed and approved per SOC2 CC6.1",
+    "artifact_id": "github:acme/payments-api/src/api/payments.py",
+    "version_from": "a1b2c3d",
+    "version_to": "e4f5g6h",
+    "policy_ids": ["soc2-cc6.1", "pci-dss-6.5"],
+    "risk_tier_assessed": "L3",
+    "assessment_date": "2024-01-15T14:32:00Z"
+  },
+  "items": [
+    {
+      "item_id": "i-001-diff",
+      "evidence_type": "diff",
+      "content_hash": "sha256:8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b",
+      "content": {
+        "diff_id": "diff-a1b2c3d-e4f5g6h",
+        "algorithm": "myers",
+        "from_hash": "sha256:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+        "to_hash": "sha256:fedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321",
+        "hunks": [
+          {
+            "old_start": 45,
+            "old_count": 7,
+            "new_start": 45,
+            "new_count": 12,
+            "lines": [
+              {"type": "context", "content": "def process_payment(amount, currency, account_id):"},
+              {"type": "context", "content": "    \"\"\"Process a payment transaction.\"\"\""},
+              {"type": "remove", "content": "    if amount <= 0:"},
+              {"type": "remove", "content": "        raise ValueError(\"Amount must be positive\")"},
+              {"type": "add", "content": "    # Validate amount with stricter bounds"},
+              {"type": "add", "content": "    if not isinstance(amount, (int, float)):"},
+              {"type": "add", "content": "        raise TypeError(\"Amount must be numeric\")"},
+              {"type": "add", "content": "    if amount <= 0 or amount > 1000000:"},
+              {"type": "add", "content": "        raise ValueError(\"Amount must be between 0 and 1,000,000\")"},
+              {"type": "add", "content": "    "},
+              {"type": "add", "content": "    # Log transaction attempt for audit"},
+              {"type": "add", "content": "    audit_log.record('payment_attempt', account_id=account_id, amount=amount)"},
+              {"type": "context", "content": "    "},
+              {"type": "context", "content": "    return execute_transaction(amount, currency, account_id)"}
+            ]
+          }
+        ],
+        "stats": {
+          "additions": 8,
+          "deletions": 2,
+          "changes": 1
+        }
+      },
+      "created_at": "2024-01-15T14:30:00Z"
+    },
+    {
+      "item_id": "i-002-approval",
+      "evidence_type": "approval",
+      "content_hash": "sha256:2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c",
+      "content": {
+        "approval_id": "APR-2024-0089",
+        "approver": {
+          "signer_id": "usr-sarah-chen",
+          "signer_type": "human",
+          "display_name": "Sarah Chen",
+          "email": "sarah.chen@acme.com",
+          "organization": "ACME Corp"
+        },
+        "decision": "approved",
+        "rationale": "Code change adds proper input validation and audit logging for payment transactions. Aligns with SOC2 CC6.1 requirements for change management.",
+        "conditions": [
+          "Must pass all unit tests",
+          "Security scan must show no new vulnerabilities"
+        ],
+        "decided_at": "2024-01-15T14:32:00Z"
+      },
+      "created_at": "2024-01-15T14:32:00Z"
+    },
+    {
+      "item_id": "i-003-policy",
+      "evidence_type": "policy_evaluation",
+      "content_hash": "sha256:3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d",
+      "content": {
+        "evaluation_id": "eval-2024-0156",
+        "policy_id": "soc2-cc6.1",
+        "policy_version": "2.1.0",
+        "result": "pass",
+        "findings": [
+          {
+            "finding_id": "f-001",
+            "severity": "info",
+            "message": "Change includes audit logging",
+            "location": "line 52"
+          }
+        ],
+        "evaluated_at": "2024-01-15T14:31:00Z"
+      },
+      "created_at": "2024-01-15T14:31:00Z"
+    }
+  ],
+  "signatures": [
+    {
+      "signature_id": "sig-001",
+      "algorithm": "ed25519",
+      "signer": {
+        "signer_id": "usr-sarah-chen",
+        "signer_type": "human",
+        "display_name": "Sarah Chen",
+        "email": "sarah.chen@acme.com",
+        "public_key_id": "key-sarah-2024"
+      },
+      "signature_value": "MEUCIQDj8Y5GzNQk4vB7RkFfUhKv9Y5Y8p6gX3HjK2L1M4N5OgIgVwX8Y9Z0A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R=",
+      "signed_at": "2024-01-15T14:32:30Z",
+      "content_hash": "sha256:4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e"
+    },
+    {
+      "signature_id": "sig-002",
+      "algorithm": "ed25519",
+      "signer": {
+        "signer_id": "ai-claude-3",
+        "signer_type": "ai_model",
+        "display_name": "Claude 3 Opus",
+        "ai_model_id": "claude-3-opus-20240229",
+        "ai_model_version": "20240229",
+        "public_key_id": "key-anthropic-2024"
+      },
+      "signature_value": "MEUCIQDk9Z6HaORl5wC8SkGgViLw0Z6Z9q7hY4IkL3M5N6O7PgIgWxY9Z0B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8S=",
+      "signed_at": "2024-01-15T14:31:15Z",
+      "content_hash": "sha256:4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e"
+    }
+  ],
+  "immutability_proof": {
+    "proof_id": "proof-001",
+    "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
+    "root_hash": "sha256:9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f",
+    "hash_algorithm": "sha256",
+    "hash_chain": {
+      "chain_id": "chain-001",
+      "entries": [
+        {
+          "sequence_number": 0,
+          "content_hash": "sha256:8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b",
+          "previous_hash": null,
+          "timestamp": "2024-01-15T14:30:00Z",
+          "content_type": "diff",
+          "content_id": "i-001-diff"
+        },
+        {
+          "sequence_number": 1,
+          "content_hash": "sha256:3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d",
+          "previous_hash": "sha256:8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b",
+          "timestamp": "2024-01-15T14:31:00Z",
+          "content_type": "policy_evaluation",
+          "content_id": "i-003-policy"
+        },
+        {
+          "sequence_number": 2,
+          "content_hash": "sha256:2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c",
+          "previous_hash": "sha256:3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d",
+          "timestamp": "2024-01-15T14:32:00Z",
+          "content_type": "approval",
+          "content_id": "i-002-approval"
+        }
+      ],
+      "created_at": "2024-01-15T14:30:00Z"
+    },
+    "verified_at": "2024-01-15T14:33:00Z",
+    "verification_status": "verified"
+  },
+  "retention": {
+    "policy": "regulatory",
+    "retention_days": 2555,
+    "created_at": "2024-01-15T14:30:00Z",
+    "expires_at": "2031-01-15T14:30:00Z",
+    "legal_hold": false,
+    "compliance_frameworks": ["SOC2", "PCI-DSS"]
+  },
+  "export_status": "exported",
+  "integrity_status": "verified",
+  "created_at": "2024-01-15T14:30:00Z",
+  "updated_at": "2024-01-15T14:33:00Z",
+  "verified_at": "2024-01-15T14:33:00Z",
+  "exported_at": "2024-01-15T14:35:00Z",
+  "audit_trail": {
+    "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
+    "entries": [
+      {
+        "entry_id": "ae-001",
+        "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
+        "action": "created",
+        "actor": {
+          "signer_id": "system-guardspine",
+          "signer_type": "system",
+          "display_name": "GuardSpine System"
+        },
+        "timestamp": "2024-01-15T14:30:00Z",
+        "details": {"source": "github-connector", "trigger": "pull_request_merged"}
+      },
+      {
+        "entry_id": "ae-002",
+        "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
+        "action": "signed",
+        "actor": {
+          "signer_id": "ai-claude-3",
+          "signer_type": "ai_model",
+          "display_name": "Claude 3 Opus"
+        },
+        "timestamp": "2024-01-15T14:31:15Z",
+        "details": {"signature_id": "sig-002"}
+      },
+      {
+        "entry_id": "ae-003",
+        "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
+        "action": "signed",
+        "actor": {
+          "signer_id": "usr-sarah-chen",
+          "signer_type": "human",
+          "display_name": "Sarah Chen"
+        },
+        "timestamp": "2024-01-15T14:32:30Z",
+        "details": {"signature_id": "sig-001"}
+      },
+      {
+        "entry_id": "ae-004",
+        "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
+        "action": "verified",
+        "actor": {
+          "signer_id": "system-guardspine",
+          "signer_type": "system",
+          "display_name": "GuardSpine System"
+        },
+        "timestamp": "2024-01-15T14:33:00Z",
+        "details": {"verification_status": "verified"}
+      },
+      {
+        "entry_id": "ae-005",
+        "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
+        "action": "exported",
+        "actor": {
+          "signer_id": "usr-audit-team",
+          "signer_type": "human",
+          "display_name": "Audit Team"
+        },
+        "timestamp": "2024-01-15T14:35:00Z",
+        "details": {"format": "zip", "destination": "audit-archive"}
+      }
+    ],
+    "last_modified": "2024-01-15T14:35:00Z"
+  }
+}

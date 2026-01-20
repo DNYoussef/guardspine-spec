@@ -1,0 +1,247 @@
+{
+  "bundle_id": "c8f4g9b3-5d2e-0f6c-7b8g-9d1e2c3b4a5d",
+  "bead_id": "BEAD-2024-0198",
+  "artifact_id": "sharepoint:acme/legal/contracts/vendor-agreement-v2.pdf",
+  "from_version_id": "v2.3",
+  "to_version_id": "v2.4",
+  "risk_tier": "L4",
+  "scope": {
+    "assertion_type": "change_approval",
+    "assertion_text": "Vendor agreement amendment reviewed by Legal and approved per contract management policy",
+    "artifact_id": "sharepoint:acme/legal/contracts/vendor-agreement-v2.pdf",
+    "version_from": "v2.3",
+    "version_to": "v2.4",
+    "policy_ids": ["contract-mgmt-001", "legal-review-required"],
+    "risk_tier_assessed": "L4",
+    "assessment_date": "2024-01-18T09:45:00Z"
+  },
+  "items": [
+    {
+      "item_id": "i-001-pdf-diff",
+      "evidence_type": "diff",
+      "content_hash": "sha256:5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
+      "content": {
+        "diff_id": "diff-v2.3-v2.4",
+        "algorithm": "pdf-text-extract",
+        "from_hash": "sha256:aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344",
+        "to_hash": "sha256:55667788aabbccdd55667788aabbccdd55667788aabbccdd55667788aabbccdd",
+        "hunks": [
+          {
+            "page": 3,
+            "section": "Section 4.2 - Payment Terms",
+            "changes": [
+              {"type": "remove", "content": "Payment shall be due within thirty (30) days of invoice date."},
+              {"type": "add", "content": "Payment shall be due within forty-five (45) days of invoice date."}
+            ]
+          },
+          {
+            "page": 5,
+            "section": "Section 7.1 - Liability Cap",
+            "changes": [
+              {"type": "remove", "content": "Total liability shall not exceed $500,000 USD."},
+              {"type": "add", "content": "Total liability shall not exceed $1,000,000 USD."}
+            ]
+          },
+          {
+            "page": 8,
+            "section": "Section 12.3 - Term",
+            "changes": [
+              {"type": "remove", "content": "This agreement shall remain in effect for two (2) years."},
+              {"type": "add", "content": "This agreement shall remain in effect for three (3) years with automatic renewal."}
+            ]
+          }
+        ],
+        "stats": {
+          "pages_changed": 3,
+          "sections_modified": 3,
+          "total_pages": 12
+        },
+        "metadata": {
+          "document_title": "Master Vendor Services Agreement",
+          "document_type": "contract",
+          "parties": ["ACME Corporation", "TechVendor Inc."],
+          "effective_date": "2024-02-01"
+        }
+      },
+      "created_at": "2024-01-18T09:30:00Z"
+    },
+    {
+      "item_id": "i-002-legal-review",
+      "evidence_type": "approval",
+      "content_hash": "sha256:6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
+      "content": {
+        "approval_id": "APR-2024-0112",
+        "approver": {
+          "signer_id": "usr-michael-ross",
+          "signer_type": "human",
+          "display_name": "Michael Ross",
+          "email": "michael.ross@acme.com",
+          "organization": "ACME Corp - Legal Department"
+        },
+        "decision": "approved",
+        "rationale": "Reviewed amendments to payment terms, liability cap, and contract term. Changes are favorable to ACME and within acceptable risk parameters. Liability cap increase is offset by extended payment terms.",
+        "conditions": [
+          "Final version must be signed by both parties",
+          "Finance team must be notified of payment term change",
+          "Insurance team must verify coverage for increased liability"
+        ],
+        "decided_at": "2024-01-18T09:45:00Z"
+      },
+      "created_at": "2024-01-18T09:45:00Z"
+    },
+    {
+      "item_id": "i-003-ai-analysis",
+      "evidence_type": "policy_evaluation",
+      "content_hash": "sha256:7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
+      "content": {
+        "evaluation_id": "eval-2024-0201",
+        "policy_id": "contract-risk-assessment",
+        "policy_version": "1.2.0",
+        "result": "warn",
+        "findings": [
+          {
+            "finding_id": "f-001",
+            "severity": "medium",
+            "message": "Liability cap increased by 100% - requires CFO notification",
+            "location": "Section 7.1"
+          },
+          {
+            "finding_id": "f-002",
+            "severity": "low",
+            "message": "Payment terms extended from 30 to 45 days - cash flow impact",
+            "location": "Section 4.2"
+          },
+          {
+            "finding_id": "f-003",
+            "severity": "info",
+            "message": "Contract term extended with auto-renewal clause",
+            "location": "Section 12.3"
+          }
+        ],
+        "ai_analysis": {
+          "model_id": "claude-3-opus-20240229",
+          "confidence": 0.92,
+          "summary": "Contract amendments increase financial exposure but provide operational benefits. Recommend approval with noted conditions.",
+          "risk_score": 6.5,
+          "risk_factors": [
+            "Doubled liability exposure",
+            "Extended payment terms affect working capital",
+            "Auto-renewal requires calendar reminder"
+          ]
+        },
+        "evaluated_at": "2024-01-18T09:35:00Z"
+      },
+      "created_at": "2024-01-18T09:35:00Z"
+    }
+  ],
+  "signatures": [
+    {
+      "signature_id": "sig-001",
+      "algorithm": "ed25519",
+      "signer": {
+        "signer_id": "usr-michael-ross",
+        "signer_type": "human",
+        "display_name": "Michael Ross",
+        "email": "michael.ross@acme.com",
+        "public_key_id": "key-michael-2024"
+      },
+      "signature_value": "MEUCIQDl0A7IbPSmn6xD9TlGhWjMx1A7Y8q7iZ5JlM4N6O8QgIgXyZ0A2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S0=",
+      "signed_at": "2024-01-18T09:46:00Z",
+      "content_hash": "sha256:8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c"
+    }
+  ],
+  "immutability_proof": {
+    "proof_id": "proof-002",
+    "bundle_id": "c8f4g9b3-5d2e-0f6c-7b8g-9d1e2c3b4a5d",
+    "root_hash": "sha256:0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a",
+    "hash_algorithm": "sha256",
+    "hash_chain": {
+      "chain_id": "chain-002",
+      "entries": [
+        {
+          "sequence_number": 0,
+          "content_hash": "sha256:5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
+          "previous_hash": null,
+          "timestamp": "2024-01-18T09:30:00Z",
+          "content_type": "diff",
+          "content_id": "i-001-pdf-diff"
+        },
+        {
+          "sequence_number": 1,
+          "content_hash": "sha256:7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
+          "previous_hash": "sha256:5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
+          "timestamp": "2024-01-18T09:35:00Z",
+          "content_type": "policy_evaluation",
+          "content_id": "i-003-ai-analysis"
+        },
+        {
+          "sequence_number": 2,
+          "content_hash": "sha256:6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
+          "previous_hash": "sha256:7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
+          "timestamp": "2024-01-18T09:45:00Z",
+          "content_type": "approval",
+          "content_id": "i-002-legal-review"
+        }
+      ],
+      "created_at": "2024-01-18T09:30:00Z"
+    },
+    "verified_at": "2024-01-18T09:47:00Z",
+    "verification_status": "verified"
+  },
+  "retention": {
+    "policy": "regulatory",
+    "retention_days": 2555,
+    "created_at": "2024-01-18T09:30:00Z",
+    "expires_at": "2031-01-18T09:30:00Z",
+    "legal_hold": false,
+    "compliance_frameworks": ["SOX", "Contract-Retention"]
+  },
+  "export_status": "exported",
+  "integrity_status": "verified",
+  "created_at": "2024-01-18T09:30:00Z",
+  "updated_at": "2024-01-18T09:47:00Z",
+  "verified_at": "2024-01-18T09:47:00Z",
+  "exported_at": "2024-01-18T10:00:00Z",
+  "audit_trail": {
+    "bundle_id": "c8f4g9b3-5d2e-0f6c-7b8g-9d1e2c3b4a5d",
+    "entries": [
+      {
+        "entry_id": "ae-001",
+        "bundle_id": "c8f4g9b3-5d2e-0f6c-7b8g-9d1e2c3b4a5d",
+        "action": "created",
+        "actor": {
+          "signer_id": "system-guardspine",
+          "signer_type": "system",
+          "display_name": "GuardSpine System"
+        },
+        "timestamp": "2024-01-18T09:30:00Z",
+        "details": {"source": "sharepoint-connector", "trigger": "document_modified"}
+      },
+      {
+        "entry_id": "ae-002",
+        "bundle_id": "c8f4g9b3-5d2e-0f6c-7b8g-9d1e2c3b4a5d",
+        "action": "viewed",
+        "actor": {
+          "signer_id": "usr-michael-ross",
+          "signer_type": "human",
+          "display_name": "Michael Ross"
+        },
+        "timestamp": "2024-01-18T09:40:00Z",
+        "details": {"view_duration_seconds": 300}
+      },
+      {
+        "entry_id": "ae-003",
+        "bundle_id": "c8f4g9b3-5d2e-0f6c-7b8g-9d1e2c3b4a5d",
+        "action": "signed",
+        "actor": {
+          "signer_id": "usr-michael-ross",
+          "signer_type": "human",
+          "display_name": "Michael Ross"
+        },
+        "timestamp": "2024-01-18T09:46:00Z",
+        "details": {"signature_id": "sig-001"}
+      }
+    ],
+    "last_modified": "2024-01-18T10:00:00Z"
+  }
+}

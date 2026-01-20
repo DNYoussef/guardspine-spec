@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guardspine.io/schemas/evidence-bundle.schema.json",
+  "title": "GuardSpine Evidence Bundle",
+  "description": "A verifiable evidence bundle for governance",
+  "type": "object",
+  "required": [
+    "bundle_id",
+    "artifact_id",
+    "from_version_id",
+    "to_version_id",
+    "risk_tier",
+    "scope",
+    "items",
+    "signatures",
+    "retention",
+    "integrity_status",
+    "created_at"
+  ],
+  "properties": {
+    "bundle_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the bundle"
+    },
+    "bead_id": {
+      "type": "string",
+      "description": "Associated work item ID"
+    },
+    "artifact_id": {
+      "type": "string",
+      "description": "ID of the artifact this bundle covers"
+    },
+    "from_version_id": {
+      "type": "string",
+      "description": "Starting version ID"
+    },
+    "to_version_id": {
+      "type": "string",
+      "description": "Ending version ID"
+    },
+    "risk_tier": {
+      "type": "string",
+      "enum": ["L0", "L1", "L2", "L3", "L4"],
+      "description": "Risk classification tier"
+    },
+    "scope": {
+      "$ref": "#/$defs/EvidenceScope"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/EvidenceItem"
+      },
+      "description": "Evidence items in the bundle"
+    },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Signature"
+      },
+      "description": "Cryptographic signatures"
+    },
+    "immutability_proof": {
+      "$ref": "#/$defs/ImmutabilityProof"
+    },
+    "retention": {
+      "$ref": "#/$defs/RetentionConfig"
+    },
+    "export_status": {
+      "type": "string",
+      "enum": ["pending", "exported", "failed"]
+    },
+    "integrity_status": {
+      "type": "string",
+      "enum": ["verified", "unverified", "mismatch"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "verified_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "exported_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "audit_trail": {
+      "$ref": "#/$defs/AuditTrail"
+    }
+  },
+  "$defs": {
+    "EvidenceScope": {
+      "type": "object",
+      "required": ["assertion_type", "assertion_text", "artifact_id", "version_from", "version_to"],
+      "properties": {
+        "assertion_type": {
+          "type": "string",
+          "enum": ["change_approval", "policy_compliance", "audit_evidence"]
+        },
+        "assertion_text": {
+          "type": "string",
+          "description": "Human-readable assertion"
+        },
+        "artifact_id": {
+          "type": "string"
+        },
+        "version_from": {
+          "type": "string"
+        },
+        "version_to": {
+          "type": "string"
+        },
+        "policy_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "risk_tier_assessed": {
+          "type": "string",
+          "enum": ["L0", "L1", "L2", "L3", "L4"]
+        },
+        "assessment_date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "EvidenceItem": {
+      "type": "object",
+      "required": ["item_id", "evidence_type", "content_hash", "content", "created_at"],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "evidence_type": {
+          "type": "string",
+          "enum": ["diff", "approval", "policy_evaluation", "artifact_version", "audit_event", "signature"]
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "content": {
+          "type": "object"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "SignerIdentity": {
+      "type": "object",
+      "required": ["signer_id", "signer_type", "display_name"],
+      "properties": {
+        "signer_id": {
+          "type": "string"
+        },
+        "signer_type": {
+          "type": "string",
+          "enum": ["human", "ai_model", "system"]
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": ["string", "null"],
+          "format": "email"
+        },
+        "ai_model_id": {
+          "type": ["string", "null"]
+        },
+        "ai_model_version": {
+          "type": ["string", "null"]
+        },
+        "public_key_id": {
+          "type": ["string", "null"]
+        },
+        "organization": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "Signature": {
+      "type": "object",
+      "required": ["signature_id", "algorithm", "signer", "signature_value", "signed_at", "content_hash"],
+      "properties": {
+        "signature_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "algorithm": {
+          "type": "string",
+          "enum": ["ed25519", "rsa-sha256", "ecdsa-p256"]
+        },
+        "signer": {
+          "$ref": "#/$defs/SignerIdentity"
+        },
+        "signature_value": {
+          "type": "string",
+          "contentEncoding": "base64"
+        },
+        "signed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "certificate_chain": {
+          "type": ["array", "null"],
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "HashChainEntry": {
+      "type": "object",
+      "required": ["sequence_number", "content_hash", "timestamp", "content_type", "content_id"],
+      "properties": {
+        "sequence_number": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "previous_hash": {
+          "type": ["string", "null"],
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "content_type": {
+          "type": "string"
+        },
+        "content_id": {
+          "type": "string"
+        }
+      }
+    },
+    "HashChain": {
+      "type": "object",
+      "required": ["chain_id", "entries", "created_at"],
+      "properties": {
+        "chain_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HashChainEntry"
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ImmutabilityProof": {
+      "type": "object",
+      "required": ["proof_id", "bundle_id", "root_hash", "hash_algorithm", "hash_chain", "verification_status"],
+      "properties": {
+        "proof_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "bundle_id": {
+          "type": "string"
+        },
+        "root_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "hash_algorithm": {
+          "type": "string",
+          "enum": ["sha256"]
+        },
+        "hash_chain": {
+          "$ref": "#/$defs/HashChain"
+        },
+        "verified_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "verification_status": {
+          "type": "string",
+          "enum": ["verified", "unverified", "mismatch"]
+        }
+      }
+    },
+    "RetentionConfig": {
+      "type": "object",
+      "required": ["policy", "retention_days", "created_at", "expires_at", "legal_hold"],
+      "properties": {
+        "policy": {
+          "type": "string",
+          "enum": ["standard", "extended", "regulatory", "permanent"]
+        },
+        "retention_days": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "legal_hold": {
+          "type": "boolean"
+        },
+        "compliance_frameworks": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "AuditEntry": {
+      "type": "object",
+      "required": ["entry_id", "bundle_id", "action", "actor", "timestamp"],
+      "properties": {
+        "entry_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "bundle_id": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string",
+          "enum": ["created", "viewed", "verified", "exported", "signed", "modified", "deleted"]
+        },
+        "actor": {
+          "$ref": "#/$defs/SignerIdentity"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "details": {
+          "type": "object"
+        },
+        "ip_address": {
+          "type": ["string", "null"]
+        },
+        "user_agent": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "AuditTrail": {
+      "type": "object",
+      "required": ["bundle_id", "entries", "last_modified"],
+      "properties": {
+        "bundle_id": {
+          "type": "string"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AuditEntry"
+          }
+        },
+        "last_modified": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

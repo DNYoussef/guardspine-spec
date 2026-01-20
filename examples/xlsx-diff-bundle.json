@@ -1,0 +1,261 @@
+{
+  "bundle_id": "d9g5h0c4-6e3f-1g7d-8c9h-0e2f3d4c5b6e",
+  "bead_id": "BEAD-2024-0215",
+  "artifact_id": "gdrive:acme/finance/q4-2024-forecast.xlsx",
+  "from_version_id": "rev-17",
+  "to_version_id": "rev-18",
+  "risk_tier": "L3",
+  "scope": {
+    "assertion_type": "change_approval",
+    "assertion_text": "Q4 2024 financial forecast revision reviewed and approved by Finance Director",
+    "artifact_id": "gdrive:acme/finance/q4-2024-forecast.xlsx",
+    "version_from": "rev-17",
+    "version_to": "rev-18",
+    "policy_ids": ["finance-forecast-001", "sox-financial-controls"],
+    "risk_tier_assessed": "L3",
+    "assessment_date": "2024-01-20T16:20:00Z"
+  },
+  "items": [
+    {
+      "item_id": "i-001-xlsx-diff",
+      "evidence_type": "diff",
+      "content_hash": "sha256:8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c",
+      "content": {
+        "diff_id": "diff-rev17-rev18",
+        "algorithm": "cell-comparison",
+        "from_hash": "sha256:ccddee11223344ccddee11223344ccddee11223344ccddee11223344ccddee11",
+        "to_hash": "sha256:99aabb22334455667788990011223344556677889900aabbccddeeff00112233",
+        "sheets_changed": ["Revenue Projections", "Expense Summary"],
+        "hunks": [
+          {
+            "sheet": "Revenue Projections",
+            "cell_changes": [
+              {
+                "cell": "C15",
+                "label": "Q4 Product Revenue",
+                "old_value": 2500000,
+                "new_value": 2750000,
+                "change_percent": 10.0,
+                "formula_changed": false
+              },
+              {
+                "cell": "C16",
+                "label": "Q4 Services Revenue",
+                "old_value": 800000,
+                "new_value": 920000,
+                "change_percent": 15.0,
+                "formula_changed": false
+              },
+              {
+                "cell": "C20",
+                "label": "Total Q4 Revenue",
+                "old_value": 3300000,
+                "new_value": 3670000,
+                "change_percent": 11.2,
+                "formula_changed": false,
+                "formula": "=SUM(C15:C19)"
+              }
+            ]
+          },
+          {
+            "sheet": "Expense Summary",
+            "cell_changes": [
+              {
+                "cell": "D8",
+                "label": "Marketing Spend",
+                "old_value": 450000,
+                "new_value": 520000,
+                "change_percent": 15.6,
+                "formula_changed": false
+              },
+              {
+                "cell": "D15",
+                "label": "Total Expenses",
+                "old_value": 2100000,
+                "new_value": 2170000,
+                "change_percent": 3.3,
+                "formula_changed": false,
+                "formula": "=SUM(D5:D14)"
+              }
+            ]
+          }
+        ],
+        "stats": {
+          "sheets_modified": 2,
+          "cells_changed": 5,
+          "formulas_affected": 2,
+          "total_sheets": 8,
+          "net_revenue_impact": 370000,
+          "net_expense_impact": 70000
+        },
+        "coherence_check": {
+          "passed": true,
+          "cross_references_valid": true,
+          "formula_integrity": "verified",
+          "linked_sheets_consistent": true
+        }
+      },
+      "created_at": "2024-01-20T16:00:00Z"
+    },
+    {
+      "item_id": "i-002-coherence-analysis",
+      "evidence_type": "policy_evaluation",
+      "content_hash": "sha256:9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d",
+      "content": {
+        "evaluation_id": "eval-2024-0245",
+        "policy_id": "coherence-gate-financial",
+        "policy_version": "1.0.0",
+        "result": "pass",
+        "findings": [
+          {
+            "finding_id": "f-001",
+            "severity": "info",
+            "message": "Revenue projections increased 11.2% - within acceptable variance",
+            "location": "Revenue Projections!C20"
+          },
+          {
+            "finding_id": "f-002",
+            "severity": "info",
+            "message": "All formulas recalculate correctly with new values",
+            "location": "All sheets"
+          },
+          {
+            "finding_id": "f-003",
+            "severity": "info",
+            "message": "Cross-sheet references remain consistent",
+            "location": "Summary Dashboard"
+          }
+        ],
+        "coherence_metrics": {
+          "formula_integrity_score": 1.0,
+          "cross_reference_score": 1.0,
+          "variance_from_budget": 0.08,
+          "confidence": 0.95
+        },
+        "evaluated_at": "2024-01-20T16:05:00Z"
+      },
+      "created_at": "2024-01-20T16:05:00Z"
+    },
+    {
+      "item_id": "i-003-approval",
+      "evidence_type": "approval",
+      "content_hash": "sha256:0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e",
+      "content": {
+        "approval_id": "APR-2024-0134",
+        "approver": {
+          "signer_id": "usr-jennifer-wong",
+          "signer_type": "human",
+          "display_name": "Jennifer Wong",
+          "email": "jennifer.wong@acme.com",
+          "organization": "ACME Corp - Finance"
+        },
+        "decision": "approved",
+        "rationale": "Forecast revision reflects updated pipeline data from Sales. Revenue increase is supported by signed LOIs. Marketing spend increase approved to support Q4 product launch. Net impact positive (+$300K to bottom line).",
+        "conditions": [
+          "Update board deck with revised numbers before Thursday meeting",
+          "Notify Sales Ops of revised targets"
+        ],
+        "decided_at": "2024-01-20T16:20:00Z"
+      },
+      "created_at": "2024-01-20T16:20:00Z"
+    }
+  ],
+  "signatures": [
+    {
+      "signature_id": "sig-001",
+      "algorithm": "ed25519",
+      "signer": {
+        "signer_id": "usr-jennifer-wong",
+        "signer_type": "human",
+        "display_name": "Jennifer Wong",
+        "email": "jennifer.wong@acme.com",
+        "public_key_id": "key-jennifer-2024"
+      },
+      "signature_value": "MEUCIQDm1B8JcQTno7yE0UmHiXkNy2B8Z9r8jA6KmN5O7P9RhIgYzA1B3C4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S0T1=",
+      "signed_at": "2024-01-20T16:21:00Z",
+      "content_hash": "sha256:1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f"
+    }
+  ],
+  "immutability_proof": {
+    "proof_id": "proof-003",
+    "bundle_id": "d9g5h0c4-6e3f-1g7d-8c9h-0e2f3d4c5b6e",
+    "root_hash": "sha256:2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a",
+    "hash_algorithm": "sha256",
+    "hash_chain": {
+      "chain_id": "chain-003",
+      "entries": [
+        {
+          "sequence_number": 0,
+          "content_hash": "sha256:8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c",
+          "previous_hash": null,
+          "timestamp": "2024-01-20T16:00:00Z",
+          "content_type": "diff",
+          "content_id": "i-001-xlsx-diff"
+        },
+        {
+          "sequence_number": 1,
+          "content_hash": "sha256:9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d",
+          "previous_hash": "sha256:8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c",
+          "timestamp": "2024-01-20T16:05:00Z",
+          "content_type": "policy_evaluation",
+          "content_id": "i-002-coherence-analysis"
+        },
+        {
+          "sequence_number": 2,
+          "content_hash": "sha256:0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e",
+          "previous_hash": "sha256:9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d",
+          "timestamp": "2024-01-20T16:20:00Z",
+          "content_type": "approval",
+          "content_id": "i-003-approval"
+        }
+      ],
+      "created_at": "2024-01-20T16:00:00Z"
+    },
+    "verified_at": "2024-01-20T16:22:00Z",
+    "verification_status": "verified"
+  },
+  "retention": {
+    "policy": "regulatory",
+    "retention_days": 2555,
+    "created_at": "2024-01-20T16:00:00Z",
+    "expires_at": "2031-01-20T16:00:00Z",
+    "legal_hold": false,
+    "compliance_frameworks": ["SOX", "GAAP"]
+  },
+  "export_status": "exported",
+  "integrity_status": "verified",
+  "created_at": "2024-01-20T16:00:00Z",
+  "updated_at": "2024-01-20T16:22:00Z",
+  "verified_at": "2024-01-20T16:22:00Z",
+  "exported_at": "2024-01-20T16:30:00Z",
+  "audit_trail": {
+    "bundle_id": "d9g5h0c4-6e3f-1g7d-8c9h-0e2f3d4c5b6e",
+    "entries": [
+      {
+        "entry_id": "ae-001",
+        "bundle_id": "d9g5h0c4-6e3f-1g7d-8c9h-0e2f3d4c5b6e",
+        "action": "created",
+        "actor": {
+          "signer_id": "system-guardspine",
+          "signer_type": "system",
+          "display_name": "GuardSpine System"
+        },
+        "timestamp": "2024-01-20T16:00:00Z",
+        "details": {"source": "gdrive-connector", "trigger": "file_modified"}
+      },
+      {
+        "entry_id": "ae-002",
+        "bundle_id": "d9g5h0c4-6e3f-1g7d-8c9h-0e2f3d4c5b6e",
+        "action": "signed",
+        "actor": {
+          "signer_id": "usr-jennifer-wong",
+          "signer_type": "human",
+          "display_name": "Jennifer Wong"
+        },
+        "timestamp": "2024-01-20T16:21:00Z",
+        "details": {"signature_id": "sig-001"}
+      }
+    ],
+    "last_modified": "2024-01-20T16:30:00Z"
+  }
+}
