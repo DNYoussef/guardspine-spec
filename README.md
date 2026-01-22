@@ -1,8 +1,10 @@
 # GuardSpine Evidence Bundle Specification
 
-> **Version**: 0.1.0
+> **Version**: 1.0.0
 > **License**: Apache 2.0
-> **Status**: Draft
+> **Status**: Stable
+
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
 The GuardSpine Evidence Bundle Specification defines a vendor-neutral, verifiable format for packaging governance evidence. Bundles can be verified offline by any party without trusting the issuing system.
 
@@ -33,6 +35,7 @@ guardspine-verify evidence-bundle-2024-01-15.zip
 | Document | Description |
 |----------|-------------|
 | [SPECIFICATION.md](SPECIFICATION.md) | Full technical specification |
+| [CLAIMS_GUARDRAIL.md](CLAIMS_GUARDRAIL.md) | Important disclaimers |
 | [schemas/](schemas/) | JSON Schema definitions |
 | [examples/](examples/) | Example bundles |
 
@@ -86,6 +89,8 @@ A bundle is **VERIFIED** if and only if:
 | `artifact_version` | Artifact snapshot metadata |
 | `audit_event` | System event (view, export, etc.) |
 | `signature` | Cryptographic signature event |
+| `integration_event` | External system event (GitHub, Jira, Slack) |
+| `dlp_signal` | DLP/CASB classification signal |
 
 ## Signature Algorithms
 
@@ -94,6 +99,21 @@ A bundle is **VERIFIED** if and only if:
 | `ed25519` | Default, fast, secure |
 | `rsa-sha256` | Legacy system compatibility |
 | `ecdsa-p256` | FIPS compliance |
+
+## AI Signer Identity
+
+For AI-generated evidence, signers include model provenance:
+
+```json
+{
+  "signer_type": "ai_model",
+  "signer_id": "claude-3-opus-20240229",
+  "display_name": "Claude 3 Opus",
+  "ai_model_id": "claude-3-opus-20240229",
+  "ai_model_version": "20240229",
+  "organization": "Anthropic"
+}
+```
 
 ## Retention Policies
 
@@ -113,6 +133,16 @@ A bundle is **VERIFIED** if and only if:
 | PDF | Human-readable report |
 | SARIF | Security tool integration (SARIF 2.1.0) |
 
+## Integration with External Systems
+
+Bundles can include evidence from:
+
+- **GitHub**: Push events, PR reviews, code scanning alerts
+- **Jira**: Issue links, status changes
+- **Slack**: Approval decisions, rejection rationale
+- **Microsoft 365**: Document changes, sensitivity labels
+- **DLP/CASB**: Classification signals, policy violations
+
 ## Contributing
 
 This specification is open for community input. To propose changes:
@@ -126,6 +156,7 @@ This specification is open for community input. To propose changes:
 | Implementation | Language | Status |
 |----------------|----------|--------|
 | [guardspine-verify](https://github.com/DNYoussef/guardspine-verify) | Python | Official |
+| [GuardSpine Backend](https://github.com/DNYoussef/GuardSpine) | Python/FastAPI | Reference |
 | _Your implementation here_ | | |
 
 ## Important Disclaimers

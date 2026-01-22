@@ -1,4 +1,4 @@
-# GuardSpine Evidence Bundle Specification v0.1.0
+# GuardSpine Evidence Bundle Specification v1.0.0
 
 ## 1. Introduction
 
@@ -11,12 +11,20 @@ This specification defines the GuardSpine Evidence Bundle format, a standardized
 - **Vendor-neutral**: Any compliant system can produce or consume bundles
 - **Cryptographically sound**: Uses established algorithms (SHA-256, Ed25519)
 
-### 1.2 Terminology
+### 1.2 Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| v1.0.0 | 2026-01-20 | Added simplified event-based format, signature support |
+| v0.1.0 | 2025-10-15 | Initial draft specification |
+
+### 1.3 Terminology
 
 | Term | Definition |
 |------|------------|
 | Bundle | A complete evidence package with scope, items, signatures, and proof |
 | Evidence Item | A single piece of evidence (diff, approval, etc.) |
+| Event | A timestamped action in the audit trail (v1.0+ format) |
 | Hash Chain | Ordered sequence of content hashes proving temporal order |
 | Signer | Human or AI entity that cryptographically signs the bundle |
 | Scope | What the bundle asserts about an artifact |
@@ -247,6 +255,80 @@ Each item contains a piece of evidence:
   ],
   "last_modified": "ISO8601"
 }
+```
+
+### 2.9 Event-Based Format (v1.0+)
+
+The v1.0+ format introduces a simplified event-based structure suitable for CI/CD pipelines and code review workflows:
+
+```json
+{
+  "guardspine_spec_version": "1.0.0",
+  "bundle_id": "gsb_xxxxxxxxxxxx",
+  "created_at": "ISO8601",
+  "context": {
+    "repository": "owner/repo",
+    "pr_number": 123,
+    "commit_sha": "string",
+    "base_branch": "main",
+    "head_branch": "feature-branch"
+  },
+  "events": [
+    {
+      "event_type": "audit_started" | "analysis_completed" | "risk_classified" | "approval_granted",
+      "timestamp": "ISO8601",
+      "actor": "string",
+      "data": { ... },
+      "hash": "sha256_hex"
+    }
+  ],
+  "hash_chain": {
+    "algorithm": "sha256",
+    "final_hash": "sha256_hex",
+    "event_count": "int"
+  },
+  "summary": {
+    "risk_tier": "L0" | "L1" | "L2" | "L3" | "L4",
+    "findings": [ ... ],
+    "rationale": "string"
+  },
+  "provenance": {
+    "tool": { "name": "string", "version": "string" },
+    "models": { "backend": "string", "used": ["string"] }
+  },
+  "signatures": [
+    {
+      "type": "ed25519" | "rsa-sha256" | "ecdsa-sha256" | "hmac-sha256",
+      "signer": "string",
+      "timestamp": "ISO8601",
+      "signature": "base64",
+      "public_key_fingerprint": "sha256_hex"
+    }
+  ]
+}
+```
+
+#### 2.9.1 Event Types
+
+| Type | Description |
+|------|-------------|
+| `audit_started` | Audit process initiated |
+| `analysis_completed` | Model analysis finished |
+| `risk_classified` | Risk tier assigned |
+| `approval_granted` | Human approval recorded (L4) |
+
+#### 2.9.2 Event Hash Chain
+
+Each event's hash includes the previous event's hash, creating a tamper-evident chain:
+
+```
+event[n].hash = SHA256(canonical_json({
+  "event_type": event[n].event_type,
+  "timestamp": event[n].timestamp,
+  "actor": event[n].actor,
+  "data": event[n].data,
+  "previous_hash": event[n-1].hash  // empty string for first event
+}))
 ```
 
 ---
