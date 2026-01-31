@@ -29,7 +29,7 @@ This specification defines the GuardSpine Evidence Bundle format, a standardized
 | Signer | Human or AI entity that cryptographically signs the bundle |
 | Scope | What the bundle asserts about an artifact |
 
-### 1.3 Conformance
+### 1.4 Conformance
 
 An implementation is conformant if it:
 - Produces bundles that pass verification according to Section 5

@@ -141,7 +141,7 @@
         },
         "evidence_type": {
           "type": "string",
-          "enum": ["diff", "approval", "policy_evaluation", "artifact_version", "audit_event", "signature"]
+          "enum": ["diff", "approval", "policy_evaluation", "artifact_version", "audit_event", "signature", "integration_event", "dlp_signal"]
         },
         "content_hash": {
           "type": "string",

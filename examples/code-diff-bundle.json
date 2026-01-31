@@ -17,7 +17,7 @@
   },
   "items": [
     {
-      "item_id": "i-001-diff",
+      "item_id": "a1b2c3d4-0001-4000-8000-d1ff00000001",
       "evidence_type": "diff",
       "content_hash": "sha256:8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b",
       "content": {
@@ -58,7 +58,7 @@
       "created_at": "2024-01-15T14:30:00Z"
     },
     {
-      "item_id": "i-002-approval",
+      "item_id": "a1b2c3d4-0002-4000-8000-a99200000002",
       "evidence_type": "approval",
       "content_hash": "sha256:2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c",
       "content": {
@@ -81,7 +81,7 @@
       "created_at": "2024-01-15T14:32:00Z"
     },
     {
-      "item_id": "i-003-policy",
+      "item_id": "a1b2c3d4-0003-4000-8000-901c00000003",
       "evidence_type": "policy_evaluation",
       "content_hash": "sha256:3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d",
       "content": {
@@ -104,7 +104,7 @@
   ],
   "signatures": [
     {
-      "signature_id": "sig-001",
+      "signature_id": "b2c3d4e5-0001-4000-8000-51a100000001",
       "algorithm": "ed25519",
       "signer": {
         "signer_id": "usr-sarah-chen",
@@ -118,7 +118,7 @@
       "content_hash": "sha256:4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e"
     },
     {
-      "signature_id": "sig-002",
+      "signature_id": "b2c3d4e5-0002-4000-8000-51a200000002",
       "algorithm": "ed25519",
       "signer": {
         "signer_id": "ai-claude-3",
@@ -134,12 +134,12 @@
     }
   ],
   "immutability_proof": {
-    "proof_id": "proof-001",
+    "proof_id": "c3d4e5f6-0001-4000-8000-900f00000001",
     "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
     "root_hash": "sha256:9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f",
     "hash_algorithm": "sha256",
     "hash_chain": {
-      "chain_id": "chain-001",
+      "chain_id": "d4e5f6a7-0001-4000-8000-c4a100000001",
       "entries": [
         {
           "sequence_number": 0,
@@ -147,7 +147,7 @@
           "previous_hash": null,
           "timestamp": "2024-01-15T14:30:00Z",
           "content_type": "diff",
-          "content_id": "i-001-diff"
+          "content_id": "a1b2c3d4-0001-4000-8000-d1ff00000001"
         },
         {
           "sequence_number": 1,
@@ -155,7 +155,7 @@
           "previous_hash": "sha256:8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a7b",
           "timestamp": "2024-01-15T14:31:00Z",
           "content_type": "policy_evaluation",
-          "content_id": "i-003-policy"
+          "content_id": "a1b2c3d4-0003-4000-8000-901c00000003"
         },
         {
           "sequence_number": 2,
@@ -163,7 +163,7 @@
           "previous_hash": "sha256:3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d",
           "timestamp": "2024-01-15T14:32:00Z",
           "content_type": "approval",
-          "content_id": "i-002-approval"
+          "content_id": "a1b2c3d4-0002-4000-8000-a99200000002"
         }
       ],
       "created_at": "2024-01-15T14:30:00Z"
@@ -189,7 +189,7 @@
     "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
     "entries": [
       {
-        "entry_id": "ae-001",
+        "entry_id": "e5f6a7b8-0001-4000-8000-ae0100000001",
         "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
         "action": "created",
         "actor": {
@@ -201,7 +201,7 @@
         "details": {"source": "github-connector", "trigger": "pull_request_merged"}
       },
       {
-        "entry_id": "ae-002",
+        "entry_id": "e5f6a7b8-0002-4000-8000-ae0200000002",
         "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
         "action": "signed",
         "actor": {
@@ -210,10 +210,10 @@
           "display_name": "Claude 3 Opus"
         },
         "timestamp": "2024-01-15T14:31:15Z",
-        "details": {"signature_id": "sig-002"}
+        "details": {"signature_id": "b2c3d4e5-0002-4000-8000-51a200000002"}
       },
       {
-        "entry_id": "ae-003",
+        "entry_id": "e5f6a7b8-0003-4000-8000-ae0300000003",
         "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
         "action": "signed",
         "actor": {
@@ -222,10 +222,10 @@
           "display_name": "Sarah Chen"
         },
         "timestamp": "2024-01-15T14:32:30Z",
-        "details": {"signature_id": "sig-001"}
+        "details": {"signature_id": "b2c3d4e5-0001-4000-8000-51a100000001"}
       },
       {
-        "entry_id": "ae-004",
+        "entry_id": "e5f6a7b8-0004-4000-8000-ae0400000004",
         "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
         "action": "verified",
         "actor": {
@@ -237,7 +237,7 @@
         "details": {"verification_status": "verified"}
       },
       {
-        "entry_id": "ae-005",
+        "entry_id": "e5f6a7b8-0005-4000-8000-ae0500000005",
         "bundle_id": "b7e3f8a2-4c1d-9e5b-6a7f-8c0d1e2b3a4c",
         "action": "exported",
         "actor": {

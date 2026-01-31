@@ -1,5 +1,5 @@
 {
-  "bundle_id": "d9g5h0c4-6e3f-1g7d-8c9h-0e2f3d4c5b6e",
+  "bundle_id": "d9a5b0c4-6e3f-4a7d-8c9e-0e2f3d4c5b6e",
   "bead_id": "BEAD-2024-0215",
   "artifact_id": "gdrive:acme/finance/q4-2024-forecast.xlsx",
   "from_version_id": "rev-17",
@@ -17,7 +17,7 @@
   },
   "items": [
     {
-      "item_id": "i-001-xlsx-diff",
+      "item_id": "a1b2c3d4-0001-4000-8000-e1ce00000001",
       "evidence_type": "diff",
       "content_hash": "sha256:8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c",
       "content": {
@@ -98,7 +98,7 @@
       "created_at": "2024-01-20T16:00:00Z"
     },
     {
-      "item_id": "i-002-coherence-analysis",
+      "item_id": "a1b2c3d4-0002-4000-8000-c04e00000002",
       "evidence_type": "policy_evaluation",
       "content_hash": "sha256:9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d",
       "content": {
@@ -137,7 +137,7 @@
       "created_at": "2024-01-20T16:05:00Z"
     },
     {
-      "item_id": "i-003-approval",
+      "item_id": "a1b2c3d4-0003-4000-8000-a99300000003",
       "evidence_type": "approval",
       "content_hash": "sha256:0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e",
       "content": {
@@ -162,7 +162,7 @@
   ],
   "signatures": [
     {
-      "signature_id": "sig-001",
+      "signature_id": "b2c3d4e5-0001-4000-8000-51a100000001",
       "algorithm": "ed25519",
       "signer": {
         "signer_id": "usr-jennifer-wong",
@@ -177,12 +177,12 @@
     }
   ],
   "immutability_proof": {
-    "proof_id": "proof-003",
-    "bundle_id": "d9g5h0c4-6e3f-1g7d-8c9h-0e2f3d4c5b6e",
+    "proof_id": "c3d4e5f6-0003-4000-8000-900f00000003",
+    "bundle_id": "d9a5b0c4-6e3f-4a7d-8c9e-0e2f3d4c5b6e",
     "root_hash": "sha256:2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a",
     "hash_algorithm": "sha256",
     "hash_chain": {
-      "chain_id": "chain-003",
+      "chain_id": "d4e5f6a7-0003-4000-8000-c4a300000003",
       "entries": [
         {
           "sequence_number": 0,
@@ -190,7 +190,7 @@
           "previous_hash": null,
           "timestamp": "2024-01-20T16:00:00Z",
           "content_type": "diff",
-          "content_id": "i-001-xlsx-diff"
+          "content_id": "a1b2c3d4-0001-4000-8000-e1ce00000001"
         },
         {
           "sequence_number": 1,
@@ -198,7 +198,7 @@
           "previous_hash": "sha256:8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c",
           "timestamp": "2024-01-20T16:05:00Z",
           "content_type": "policy_evaluation",
-          "content_id": "i-002-coherence-analysis"
+          "content_id": "a1b2c3d4-0002-4000-8000-c04e00000002"
         },
         {
           "sequence_number": 2,
@@ -206,7 +206,7 @@
           "previous_hash": "sha256:9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d",
           "timestamp": "2024-01-20T16:20:00Z",
           "content_type": "approval",
-          "content_id": "i-003-approval"
+          "content_id": "a1b2c3d4-0003-4000-8000-a99300000003"
         }
       ],
       "created_at": "2024-01-20T16:00:00Z"
@@ -229,11 +229,11 @@
   "verified_at": "2024-01-20T16:22:00Z",
   "exported_at": "2024-01-20T16:30:00Z",
   "audit_trail": {
-    "bundle_id": "d9g5h0c4-6e3f-1g7d-8c9h-0e2f3d4c5b6e",
+    "bundle_id": "d9a5b0c4-6e3f-4a7d-8c9e-0e2f3d4c5b6e",
     "entries": [
       {
-        "entry_id": "ae-001",
-        "bundle_id": "d9g5h0c4-6e3f-1g7d-8c9h-0e2f3d4c5b6e",
+        "entry_id": "e5f6a7b8-0001-4000-8000-ae0100000001",
+        "bundle_id": "d9a5b0c4-6e3f-4a7d-8c9e-0e2f3d4c5b6e",
         "action": "created",
         "actor": {
           "signer_id": "system-guardspine",
@@ -244,8 +244,8 @@
         "details": {"source": "gdrive-connector", "trigger": "file_modified"}
       },
       {
-        "entry_id": "ae-002",
-        "bundle_id": "d9g5h0c4-6e3f-1g7d-8c9h-0e2f3d4c5b6e",
+        "entry_id": "e5f6a7b8-0002-4000-8000-ae0200000002",
+        "bundle_id": "d9a5b0c4-6e3f-4a7d-8c9e-0e2f3d4c5b6e",
         "action": "signed",
         "actor": {
           "signer_id": "usr-jennifer-wong",
@@ -253,7 +253,7 @@
           "display_name": "Jennifer Wong"
         },
         "timestamp": "2024-01-20T16:21:00Z",
-        "details": {"signature_id": "sig-001"}
+        "details": {"signature_id": "b2c3d4e5-0001-4000-8000-51a100000001"}
       }
     ],
     "last_modified": "2024-01-20T16:30:00Z"
