@@ -1,0 +1,24 @@
+{
+  "name": "guardspine-spec",
+  "version": "0.2.0",
+  "description": "GuardSpine Evidence Bundle Specification and Golden Vectors",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-bundles.mjs",
+    "validate:examples": "node scripts/validate-bundles.mjs --examples-only",
+    "validate:golden": "node scripts/validate-bundles.mjs --golden-only",
+    "test": "npm run validate"
+  },
+  "keywords": [
+    "guardspine",
+    "evidence-bundle",
+    "json-schema",
+    "audit-trail"
+  ],
+  "author": "GuardSpine",
+  "license": "MIT",
+  "devDependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1"
+  }
+}

@@ -1,0 +1,6 @@
+# Test dependencies for guardspine-spec interoperability tests
+pytest>=7.0.0
+jsonschema>=4.0.0
+
+# Optional: Install guardspine-kernel-py for cross-language parity tests
+# pip install guardspine-kernel-py

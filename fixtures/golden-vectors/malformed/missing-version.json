@@ -1,0 +1,18 @@
+{
+  "_test_purpose": "MUST BE REJECTED - missing required 'version' field",
+  "bundle_id": "malformed-no-version",
+  "created_at": "2026-01-15T10:30:00.000Z",
+  "items": [
+    {
+      "item_id": "item-001",
+      "sequence": 0,
+      "content_type": "guardspine/audit_event",
+      "content": {"message": "test"},
+      "content_hash": "sha256:abc123"
+    }
+  ],
+  "immutability_proof": {
+    "hash_chain": [],
+    "root_hash": "sha256:abc123"
+  }
+}

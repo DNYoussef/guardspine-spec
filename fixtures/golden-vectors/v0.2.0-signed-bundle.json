@@ -1,0 +1,47 @@
+{
+  "bundle_id": "00000000-0000-4000-8000-000000000003",
+  "version": "0.2.0",
+  "created_at": "2026-01-15T11:00:00.000Z",
+  "items": [
+    {
+      "item_id": "item-001",
+      "sequence": 0,
+      "content_type": "guardspine/approval",
+      "content": {
+        "decision": "approved",
+        "approver": "user@example.com",
+        "rationale": "Golden vector signed bundle test"
+      },
+      "content_hash": "sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+    }
+  ],
+  "immutability_proof": {
+    "hash_chain": [
+      {
+        "sequence": 0,
+        "item_id": "item-001",
+        "content_type": "guardspine/approval",
+        "content_hash": "sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c",
+        "previous_hash": "genesis",
+        "chain_hash": "sha256:c2d3e4f5a6b7890123456789012345678901234567890123456789012345bcde"
+      }
+    ],
+    "root_hash": "sha256:c2d3e4f5a6b7890123456789012345678901234567890123456789012345bcde"
+  },
+  "signatures": [
+    {
+      "signature_id": "sig-001",
+      "signer_id": "test-signer-001",
+      "algorithm": "ed25519",
+      "public_key_id": "key-ed25519-001",
+      "signature_value": "dGVzdC1zaWduYXR1cmUtdmFsdWUtZm9yLWdvbGRlbi12ZWN0b3I=",
+      "signed_at": "2026-01-15T11:00:01.000Z"
+    }
+  ],
+  "metadata": {
+    "retention": {
+      "policy": "extended",
+      "retention_days": 1095
+    }
+  }
+}

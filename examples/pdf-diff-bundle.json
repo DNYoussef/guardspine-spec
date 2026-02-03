@@ -1,4 +1,5 @@
 {
+  "version": "0.2.0",
   "bundle_id": "c8f409b3-5d2e-4f6c-7b80-9d1e2c3b4a5d",
   "bead_id": "BEAD-2024-0198",
   "artifact_id": "sharepoint:acme/legal/contracts/vendor-agreement-v2.pdf",
@@ -18,7 +19,8 @@
   "items": [
     {
       "item_id": "f1a2b3c4-0001-4000-8000-9df100000001",
-      "evidence_type": "diff",
+      "sequence": 0,
+      "content_type": "diff",
       "content_hash": "sha256:5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
       "content": {
         "diff_id": "diff-v2.3-v2.4",
@@ -67,7 +69,8 @@
     },
     {
       "item_id": "f1a2b3c4-0002-4000-8000-1e9a00000002",
-      "evidence_type": "approval",
+      "sequence": 1,
+      "content_type": "approval",
       "content_hash": "sha256:6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
       "content": {
         "approval_id": "APR-2024-0112",
@@ -91,7 +94,8 @@
     },
     {
       "item_id": "f1a2b3c4-0003-4000-8000-a1a300000003",
-      "evidence_type": "policy_evaluation",
+      "sequence": 2,
+      "content_type": "policy_evaluation",
       "content_hash": "sha256:7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
       "content": {
         "evaluation_id": "eval-2024-0201",
@@ -137,14 +141,8 @@
   "signatures": [
     {
       "signature_id": "a2b3c4d5-0001-4000-8000-51a100000001",
+      "signer_id": "usr-michael-ross",
       "algorithm": "ed25519",
-      "signer": {
-        "signer_id": "usr-michael-ross",
-        "signer_type": "human",
-        "display_name": "Michael Ross",
-        "email": "michael.ross@acme.com",
-        "public_key_id": "key-michael-2024"
-      },
       "signature_value": "MEUCIQDl0A7IbPSmn6xD9TlGhWjMx1A7Y8q7iZ5JlM4N6O8QgIgXyZ0A2B3C4D5E6F7G8H9I0J1K2L3M4N5O6P7Q8R9S0=",
       "signed_at": "2024-01-18T09:46:00Z",
       "content_hash": "sha256:8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c"
@@ -155,46 +153,48 @@
     "bundle_id": "c8f409b3-5d2e-4f6c-7b80-9d1e2c3b4a5d",
     "root_hash": "sha256:0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a",
     "hash_algorithm": "sha256",
-    "hash_chain": {
-      "chain_id": "d4e5f6a7-0002-4000-8000-c4a200000002",
-      "entries": [
-        {
-          "sequence_number": 0,
-          "content_hash": "sha256:5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
-          "previous_hash": null,
-          "timestamp": "2024-01-18T09:30:00Z",
-          "content_type": "diff",
-          "content_id": "f1a2b3c4-0001-4000-8000-9df100000001"
-        },
-        {
-          "sequence_number": 1,
-          "content_hash": "sha256:7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
-          "previous_hash": "sha256:5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
-          "timestamp": "2024-01-18T09:35:00Z",
-          "content_type": "policy_evaluation",
-          "content_id": "f1a2b3c4-0003-4000-8000-a1a300000003"
-        },
-        {
-          "sequence_number": 2,
-          "content_hash": "sha256:6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
-          "previous_hash": "sha256:7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
-          "timestamp": "2024-01-18T09:45:00Z",
-          "content_type": "approval",
-          "content_id": "f1a2b3c4-0002-4000-8000-1e9a00000002"
-        }
-      ],
-      "created_at": "2024-01-18T09:30:00Z"
-    },
+    "hash_chain": [
+      {
+        "sequence": 0,
+        "item_id": "f1a2b3c4-0001-4000-8000-9df100000001",
+        "content_type": "diff",
+        "content_hash": "sha256:5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
+        "previous_hash": "genesis",
+        "chain_hash": "sha256:a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
+        "timestamp": "2024-01-18T09:30:00Z"
+      },
+      {
+        "sequence": 1,
+        "item_id": "f1a2b3c4-0003-4000-8000-a1a300000003",
+        "content_type": "policy_evaluation",
+        "content_hash": "sha256:7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
+        "previous_hash": "sha256:a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
+        "chain_hash": "sha256:b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3",
+        "timestamp": "2024-01-18T09:35:00Z"
+      },
+      {
+        "sequence": 2,
+        "item_id": "f1a2b3c4-0002-4000-8000-1e9a00000002",
+        "content_type": "approval",
+        "content_hash": "sha256:6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
+        "previous_hash": "sha256:b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3",
+        "chain_hash": "sha256:c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4",
+        "timestamp": "2024-01-18T09:45:00Z"
+      }
+    ],
+    "created_at": "2024-01-18T09:30:00Z",
     "verified_at": "2024-01-18T09:47:00Z",
     "verification_status": "verified"
   },
-  "retention": {
-    "policy": "regulatory",
-    "retention_days": 2555,
-    "created_at": "2024-01-18T09:30:00Z",
-    "expires_at": "2031-01-18T09:30:00Z",
-    "legal_hold": false,
-    "compliance_frameworks": ["SOX", "Contract-Retention"]
+  "metadata": {
+    "retention": {
+      "policy": "regulatory",
+      "retention_days": 2555,
+      "created_at": "2024-01-18T09:30:00Z",
+      "expires_at": "2031-01-18T09:30:00Z",
+      "legal_hold": false,
+      "compliance_frameworks": ["SOX", "Contract-Retention"]
+    }
   },
   "export_status": "exported",
   "integrity_status": "verified",
