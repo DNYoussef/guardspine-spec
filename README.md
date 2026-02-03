@@ -95,11 +95,15 @@ EvidenceBundle
 
 A bundle is **VERIFIED** if and only if:
 
-1. **Hash Chain Valid**: Each entry's `previous_hash` matches the prior entry's `chain_hash`
-2. **Root Hash Valid**: Computed Merkle root matches `immutability_proof.root_hash`
-3. **Content Hashes Valid**: Each item's `content_hash` matches SHA-256 of its `content`
-4. **Signatures Valid**: Each signature verifies against the signer's public key
-5. **No Gaps**: Hash chain sequence numbers are contiguous starting from 0
+1. **Version Valid**: Bundle `version` field equals `"0.2.0"`
+2. **Hash Chain Valid**: Each entry's `previous_hash` matches the prior entry's `chain_hash` (NOT content_hash)
+3. **Chain Binding**: Hash chain entries map 1:1 to items (same count, same item_id, same content_hash, same order)
+4. **Root Hash Valid**: Computed Merkle root matches `immutability_proof.root_hash`
+5. **Content Hashes Valid**: Each item's `content_hash` matches SHA-256 of its canonical JSON `content`
+6. **Signatures Valid**: Each signature verifies against the signer's public key
+7. **No Gaps**: Hash chain sequence numbers are contiguous starting from 0
+
+**Important**: The chain links via `chain_hash`, not `content_hash`. This is a common implementation error.
 
 ## Supported Evidence Types
 
@@ -184,13 +188,16 @@ The `fixtures/golden-vectors/` directory contains:
 | `v0.2.0-signed-bundle.json` | Bundle with Ed25519 signature |
 | `malformed/*.json` | Invalid bundles that MUST be rejected |
 
-The `examples/` directory contains real-world examples:
+The `examples/` directory contains illustrative examples:
 
-| Example | Description |
-|---------|-------------|
-| `code-diff-bundle.json` | Code change review evidence |
-| `pdf-diff-bundle.json` | PDF document change evidence |
-| `xlsx-diff-bundle.json` | Excel document change evidence |
+| Example | Description | Status |
+|---------|-------------|--------|
+| `code-diff-bundle.json` | Code change review evidence | Legacy format (v0.1.0) |
+| `pdf-diff-bundle.json` | PDF document change evidence | Legacy format (v0.1.0) |
+| `xlsx-diff-bundle.json` | Excel document change evidence | Legacy format (v0.1.0) |
+
+**Note**: Examples in `examples/` use legacy field names (`evidence_type` instead of `content_type`).
+For v0.2.0 compliant examples, see `fixtures/golden-vectors/`.
 
 ## Validation Tools
 
