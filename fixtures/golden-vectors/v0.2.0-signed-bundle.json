@@ -12,7 +12,7 @@
         "approver": "user@example.com",
         "rationale": "Golden vector signed bundle test"
       },
-      "content_hash": "sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+      "content_hash": "sha256:652b1f19570be9b88e829502a5517fded3154acd0910f44ed2eb82af41564ce0"
     }
   ],
   "immutability_proof": {
@@ -21,12 +21,12 @@
         "sequence": 0,
         "item_id": "item-001",
         "content_type": "guardspine/approval",
-        "content_hash": "sha256:b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c",
+        "content_hash": "sha256:652b1f19570be9b88e829502a5517fded3154acd0910f44ed2eb82af41564ce0",
         "previous_hash": "genesis",
-        "chain_hash": "sha256:c2d3e4f5a6b7890123456789012345678901234567890123456789012345bcde"
+        "chain_hash": "sha256:cb51b895afd2f27b3c3fb215d19b06c0deed49b21ac54f28af106381b54091e4"
       }
     ],
-    "root_hash": "sha256:c2d3e4f5a6b7890123456789012345678901234567890123456789012345bcde"
+    "root_hash": "sha256:616f5e3aa1bcfd38653219e82d7442012be6fdb032b3846fa69108bddc1bf6e7"
   },
   "signatures": [
     {

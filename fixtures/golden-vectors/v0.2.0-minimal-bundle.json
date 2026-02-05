@@ -11,7 +11,7 @@
         "event_type": "test_event",
         "message": "Golden vector minimal bundle test"
       },
-      "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "content_hash": "sha256:35e7c4820720acdad57a0ac3fff93cb1bbb1541e8eab76edff8d1b0fffddb06d"
     }
   ],
   "immutability_proof": {
@@ -20,12 +20,12 @@
         "sequence": 0,
         "item_id": "item-001",
         "content_type": "guardspine/audit_event",
-        "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "content_hash": "sha256:35e7c4820720acdad57a0ac3fff93cb1bbb1541e8eab76edff8d1b0fffddb06d",
         "previous_hash": "genesis",
-        "chain_hash": "sha256:a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd"
+        "chain_hash": "sha256:92194b6ed430176311ee13ae769d7a5ba8733e46e5760be161463a66d3422a55"
       }
     ],
-    "root_hash": "sha256:a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd"
+    "root_hash": "sha256:177381917fcdf66488e45ce74ddccafee81338be7709709443876ab9e385f989"
   },
   "metadata": {
     "retention": {

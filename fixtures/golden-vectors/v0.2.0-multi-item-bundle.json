@@ -12,7 +12,7 @@
         "version": "1.0.0",
         "checksum": "sha256:abc123"
       },
-      "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      "content_hash": "sha256:38d5d35a42681d0306cde1c06f1497dda373f4bf929d27c42ef6aa8c2df7b675"
     },
     {
       "item_id": "item-002",
@@ -23,7 +23,7 @@
         "to_version": "1.0.1",
         "changes": [{"type": "modify", "path": "/section/1"}]
       },
-      "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      "content_hash": "sha256:ebf721817974db284616860aa2ac55572f2cff0026ff948938c35feeab2eda50"
     },
     {
       "item_id": "item-003",
@@ -34,7 +34,7 @@
         "result": "pass",
         "violations": []
       },
-      "content_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+      "content_hash": "sha256:8ee8c83df3039bb41d817091aac8551c31d6615526b9d99aecaae0b3d17eb689"
     },
     {
       "item_id": "item-004",
@@ -44,7 +44,7 @@
         "decision": "approved",
         "approver": "manager@example.com"
       },
-      "content_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+      "content_hash": "sha256:fec996ba3775176087450a20b2321ecdce979944cd207897b2be7546300eb134"
     },
     {
       "item_id": "item-005",
@@ -54,7 +54,7 @@
         "event_type": "bundle_created",
         "timestamp": "2026-01-15T12:00:00.000Z"
       },
-      "content_hash": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      "content_hash": "sha256:ebe5dc3a715c94d230b6bc8d44670f85e97bb3aed63e7cbd1dab39663c65242e"
     }
   ],
   "immutability_proof": {
@@ -63,44 +63,44 @@
         "sequence": 0,
         "item_id": "item-001",
         "content_type": "guardspine/artifact_version",
-        "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "content_hash": "sha256:38d5d35a42681d0306cde1c06f1497dda373f4bf929d27c42ef6aa8c2df7b675",
         "previous_hash": "genesis",
-        "chain_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        "chain_hash": "sha256:af9c9423e0f4d84554e82a8badcb9c4bb26ff65a9c6fe5ccf88a30225e5cdd35"
       },
       {
         "sequence": 1,
         "item_id": "item-002",
         "content_type": "guardspine/diff",
-        "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
-        "previous_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "chain_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        "content_hash": "sha256:ebf721817974db284616860aa2ac55572f2cff0026ff948938c35feeab2eda50",
+        "previous_hash": "sha256:af9c9423e0f4d84554e82a8badcb9c4bb26ff65a9c6fe5ccf88a30225e5cdd35",
+        "chain_hash": "sha256:7acdcd2b3e5e4e9c37b25a315f9c4e08fdcb5a015b9535709cc0ec002d3ab047"
       },
       {
         "sequence": 2,
         "item_id": "item-003",
         "content_type": "guardspine/policy_evaluation",
-        "content_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
-        "previous_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-        "chain_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        "content_hash": "sha256:8ee8c83df3039bb41d817091aac8551c31d6615526b9d99aecaae0b3d17eb689",
+        "previous_hash": "sha256:7acdcd2b3e5e4e9c37b25a315f9c4e08fdcb5a015b9535709cc0ec002d3ab047",
+        "chain_hash": "sha256:80001eaa4e25cc333a481d1c30cc756e0b41d40ca039b566f4768c4e12885bc2"
       },
       {
         "sequence": 3,
         "item_id": "item-004",
         "content_type": "guardspine/approval",
-        "content_hash": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
-        "previous_hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-        "chain_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        "content_hash": "sha256:fec996ba3775176087450a20b2321ecdce979944cd207897b2be7546300eb134",
+        "previous_hash": "sha256:80001eaa4e25cc333a481d1c30cc756e0b41d40ca039b566f4768c4e12885bc2",
+        "chain_hash": "sha256:b522ad3fbe350e8d9592bc1a544b5aed7b857362c463b2df39a3df1da8b1e438"
       },
       {
         "sequence": 4,
         "item_id": "item-005",
         "content_type": "guardspine/audit_event",
-        "content_hash": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
-        "previous_hash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-        "chain_hash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        "content_hash": "sha256:ebe5dc3a715c94d230b6bc8d44670f85e97bb3aed63e7cbd1dab39663c65242e",
+        "previous_hash": "sha256:b522ad3fbe350e8d9592bc1a544b5aed7b857362c463b2df39a3df1da8b1e438",
+        "chain_hash": "sha256:56a22100501f0d6212c2adcc5ecb77afa0d1aec58e6ae8cdc8ff98c8450548e4"
       }
     ],
-    "root_hash": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    "root_hash": "sha256:852607af0e74fd0028dab1e6ab8dc49d981388dc15e551cb950a6df5432d5f8a"
   },
   "metadata": {
     "retention": {
