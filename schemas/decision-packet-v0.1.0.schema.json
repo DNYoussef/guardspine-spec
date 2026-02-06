@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guardspine.dev/schemas/decision-packet/v0.1.0",
+  "title": "GuardSpine Decision Packet",
+  "description": "One PR, one decision. Output of the Decision Engine.",
+  "type": "object",
+  "required": ["decision", "total_findings", "policy_name"],
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": ["merge", "merge-with-conditions", "block"],
+      "description": "The single actionable verdict for this PR."
+    },
+    "hard_blocks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Finding" },
+      "description": "Provable failures that hard-block merge. Only deterministic detections."
+    },
+    "conditions": {
+      "type": "array",
+      "maxItems": 2,
+      "items": { "$ref": "#/$defs/Finding" },
+      "description": "Reviewer action items (max 2). Decision budget enforced."
+    },
+    "advisory": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Finding" },
+      "description": "Informational findings. No reviewer action required."
+    },
+    "total_findings": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of findings processed."
+    },
+    "policy_name": {
+      "type": "string",
+      "description": "Name of the policy profile used (standard, strict, advisory, or custom)."
+    }
+  },
+  "$defs": {
+    "Finding": {
+      "type": "object",
+      "required": ["severity", "category", "description", "recommendation", "provable"],
+      "properties": {
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low", "info"],
+          "description": "Severity level."
+        },
+        "category": {
+          "type": "string",
+          "description": "Finding category (security, correctness, performance, general)."
+        },
+        "location": {
+          "type": ["string", "null"],
+          "description": "File path and/or line reference."
+        },
+        "description": {
+          "type": "string",
+          "description": "What was found."
+        },
+        "recommendation": {
+          "type": "string",
+          "description": "How to fix it."
+        },
+        "provable": {
+          "type": "boolean",
+          "description": "True = deterministic detection (regex, CVE match). False = model opinion."
+        }
+      }
+    }
+  }
+}
