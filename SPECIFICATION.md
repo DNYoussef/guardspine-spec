@@ -17,6 +17,7 @@ Design goals:
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v0.2.1 | 2026-02-08 | Added optional `sanitization` attestation object |
 | v0.2.0 | 2026-02-02 | Canonical bundle schema aligned with kernel v0.2.0 |
 | v1.0.0 | 2026-01-20 | **Deprecated** draft (replaced by v0.2.0) |
 | v0.1.0 | 2025-10-15 | Initial draft |
@@ -25,6 +26,7 @@ Design goals:
 
 An implementation is conformant if it:
 - Emits bundles that validate against `schemas/evidence-bundle.schema.json` (v0.2.0)
+  or `schemas/evidence-bundle-v0.2.1.schema.json` (v0.2.1)
 - Computes content hashes and hash chains exactly as defined in Section 4
 - Verifies bundles using the algorithm in Section 5
 
@@ -42,6 +44,7 @@ An implementation is conformant if it:
   "policy_id": "string?",
   "artifact_id": "string?",
   "risk_tier": "L0|L1|L2|L3|L4?",
+  "sanitization": { ... }?,
   "items": [ ... ],
   "immutability_proof": { ... },
   "signatures": [ ... ],
@@ -104,6 +107,30 @@ Signatures are optional. When present, they MUST sign the bundle with the
 }
 ```
 
+### 2.5 Sanitization Attestation (Optional, v0.2.1+)
+
+When sensitive content has been redacted before or during evidence generation,
+producers SHOULD include a `sanitization` object:
+
+```json
+{
+  "engine_name": "pii-shield",
+  "engine_version": "1.1.0",
+  "method": "deterministic_hmac",
+  "token_format": "[HIDDEN:<id>]",
+  "salt_fingerprint": "sha256:1a2b3c4d",
+  "redaction_count": 3,
+  "redactions_by_type": { "email": 1, "api_key": 2 },
+  "input_hash": "sha256:...",
+  "output_hash": "sha256:...",
+  "applied_to": ["ai_prompt", "evidence_bundle", "sarif"],
+  "status": "sanitized"
+}
+```
+
+`sanitization` is informational attestation metadata and is not itself a cryptographic proof
+of redaction completeness. Consumers MAY apply additional policy checks.
+
 ---
 
 ## 3. Canonical JSON (RFC 8785 Compatible)
@@ -151,6 +178,7 @@ root_hash = SHA256(concat(chain_hash[0], chain_hash[1], ...))
 3. Recompute each `chain_hash` and validate `previous_hash` linkage.
 4. Recompute `root_hash` from all chain hashes and compare.
 5. If signatures present, verify against bundle content without `signatures`.
+6. If `sanitization` present, validate contract shape and token format policy.
 
 If any step fails, the bundle is invalid.
 

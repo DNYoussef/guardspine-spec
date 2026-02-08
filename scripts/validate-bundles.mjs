@@ -2,7 +2,7 @@
 /**
  * GuardSpine Evidence Bundle Schema Validator
  *
- * Validates bundles against the v0.2.0 JSON Schema using AJV.
+ * Validates bundles against the compatibility JSON Schema (v0.2.0 + v0.2.1) using AJV.
  *
  * Usage:
  *   npm run validate             # Validate all
@@ -52,7 +52,7 @@ const ajv = new Ajv2020({
 addFormats(ajv);
 
 // Load and compile schema
-const schemaPath = join(ROOT, 'schemas', 'evidence-bundle-v0.2.0.schema.json');
+const schemaPath = join(ROOT, 'schemas', 'evidence-bundle.schema.json');
 if (!existsSync(schemaPath)) {
   log(`ERROR: Schema not found: ${schemaPath}`, 'red');
   process.exit(1);

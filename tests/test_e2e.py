@@ -29,7 +29,7 @@ import pytest
 
 SPEC_ROOT = Path(__file__).parent.parent
 FIXTURES_DIR = SPEC_ROOT / "fixtures" / "golden-vectors"
-SCHEMA_PATH = SPEC_ROOT / "schemas" / "evidence-bundle-v0.2.0.schema.json"
+SCHEMA_PATH = SPEC_ROOT / "schemas" / "evidence-bundle.schema.json"
 
 # Backend API (optional - tests skip gracefully if not available)
 BACKEND_URL = os.getenv("GUARDSPINE_BACKEND_URL", "http://localhost:8000")
@@ -447,6 +447,7 @@ class TestRegression:
             "v0.2.0-minimal-bundle.json",
             "v0.2.0-multi-item-bundle.json",
             "v0.2.0-signed-bundle.json",
+            "v0.2.1-sanitized-bundle.json",
         ],
     )
     def test_golden_vectors_remain_valid(self, vector_name):
