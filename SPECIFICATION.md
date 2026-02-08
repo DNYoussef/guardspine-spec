@@ -207,3 +207,61 @@ If any step fails, the bundle is invalid.
 
 - v1.0.0 draft bundles are deprecated.
 - Implementations MAY provide migration tools, but v0.2.0 is the canonical format.
+
+---
+
+## 7. Cryptographic Field Registry
+
+The following field names contain cryptographic material (hashes, signatures,
+keys). PII-Shield integrations and other sanitizers MUST preserve these fields
+verbatim to avoid corrupting the immutability proof.
+
+### 7.1 Fields Matched by Suffix
+
+| Suffix | Examples |
+|--------|----------|
+| `_hash` | `content_hash`, `chain_hash`, `previous_hash`, `root_hash`, `diff_hash`, `raw_diff_hash`, `analysis_diff_hash`, `input_hash`, `output_hash` |
+
+### 7.2 Fields Matched by Exact Name
+
+| Field Name | Context |
+|------------|---------|
+| `signature_value` | Base64-encoded signature bytes |
+| `public_key_id` | SHA-256 fingerprint of signer's public key |
+| `root_hash` | Immutability proof root |
+| `chain_hash` | Hash chain link hash |
+| `previous_hash` | Back-pointer in hash chain |
+| `final_hash` | Legacy hash chain terminal value |
+
+### 7.3 Implementation Guidance
+
+Implementations SHOULD use suffix matching (`*_hash`) plus the exact-name
+set above. Recursive tree-walk is acceptable for arbitrary document shapes.
+Static path registration is NOT recommended because bundle schemas evolve.
+
+---
+
+## 8. PII-Shield Integration Requirements
+
+### 8.1 Salt Immutability
+
+The `PII_SALT` value used for deterministic HMAC redaction MUST be:
+
+1. **Org-wide**: The same salt MUST be used across all repositories and
+   pipeline stages within an organization.
+2. **Immutable**: Once set, the salt MUST NOT change. Changing the salt
+   produces different HMAC tokens for the same input, breaking
+   cross-bundle correlation and audit trail continuity.
+3. **Recorded**: The SHA-256 fingerprint of the salt MUST be stored in
+   the bundle's `sanitization.salt_fingerprint` field.
+
+### 8.2 Sanitization Ordering
+
+Sanitization MUST occur BEFORE hash computation:
+
+```
+raw_content -> sanitize(content) -> canonical_json(sanitized) -> SHA-256
+```
+
+If sanitization runs after hashing, the `content_hash` will not match the
+stored content, causing verification failure.
