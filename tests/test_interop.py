@@ -2,7 +2,7 @@
 """
 GuardSpine Interoperability Test Suite
 
-Validates that all bundle producers create valid v0.2.0 bundles that:
+Validates that all bundle producers create valid v0.2.x bundles that:
 1. Pass local JSON Schema validation
 2. Pass guardspine-verify validation
 3. Can be imported to guardspine-backend
@@ -26,7 +26,14 @@ import pytest
 
 SPEC_ROOT = Path(__file__).parent.parent
 FIXTURES_DIR = SPEC_ROOT / "fixtures" / "golden-vectors"
-SCHEMA_PATH = SPEC_ROOT / "schemas" / "evidence-bundle-v0.2.0.schema.json"
+SCHEMA_PATH = SPEC_ROOT / "schemas" / "evidence-bundle.schema.json"
+VALID_VECTORS = [
+    "v0.2.0-minimal-bundle.json",
+    "v0.2.0-multi-item-bundle.json",
+    "v0.2.0-signed-bundle.json",
+    "v0.2.1-sanitized-bundle.json",
+]
+SUPPORTED_VERSIONS = {"0.2.0", "0.2.1"}
 
 # Producer configurations - paths are relative to D:\Projects
 PRODUCERS = {
@@ -131,11 +138,7 @@ class TestSchemaValidation:
 
     @pytest.mark.parametrize(
         "vector_name",
-        [
-            "v0.2.0-minimal-bundle.json",
-            "v0.2.0-multi-item-bundle.json",
-            "v0.2.0-signed-bundle.json",
-        ],
+        VALID_VECTORS,
     )
     def test_valid_vectors_pass_schema(self, vector_name):
         """Valid golden vectors must pass schema validation."""
@@ -152,6 +155,7 @@ class TestSchemaValidation:
             "malformed/unbound-item.json",
             "malformed/broken-chain-linkage.json",
             "malformed/sequence-gap.json",
+            "malformed/invalid-sanitization-shape.json",
         ],
     )
     def test_malformed_vectors_fail_schema(self, vector_name):
@@ -167,28 +171,20 @@ class TestSchemaValidation:
 
 
 class TestBundleStructure:
-    """Tests for v0.2.0 bundle structure compliance."""
+    """Tests for bundle structure compliance across supported versions."""
 
     @pytest.mark.parametrize(
         "vector_name",
-        [
-            "v0.2.0-minimal-bundle.json",
-            "v0.2.0-multi-item-bundle.json",
-            "v0.2.0-signed-bundle.json",
-        ],
+        VALID_VECTORS,
     )
-    def test_version_is_0_2_0(self, vector_name):
-        """Bundle version must be exactly '0.2.0'."""
+    def test_version_is_supported(self, vector_name):
+        """Bundle version must be a supported schema version."""
         bundle = load_golden_vector(vector_name)
-        assert bundle.get("version") == "0.2.0"
+        assert bundle.get("version") in SUPPORTED_VERSIONS
 
     @pytest.mark.parametrize(
         "vector_name",
-        [
-            "v0.2.0-minimal-bundle.json",
-            "v0.2.0-multi-item-bundle.json",
-            "v0.2.0-signed-bundle.json",
-        ],
+        VALID_VECTORS,
     )
     def test_items_have_sequence(self, vector_name):
         """All items must have sequence field matching array index."""
@@ -198,11 +194,7 @@ class TestBundleStructure:
 
     @pytest.mark.parametrize(
         "vector_name",
-        [
-            "v0.2.0-minimal-bundle.json",
-            "v0.2.0-multi-item-bundle.json",
-            "v0.2.0-signed-bundle.json",
-        ],
+        VALID_VECTORS,
     )
     def test_hash_chain_uses_genesis(self, vector_name):
         """First hash chain entry must use 'genesis' as previous_hash."""
@@ -213,11 +205,7 @@ class TestBundleStructure:
 
     @pytest.mark.parametrize(
         "vector_name",
-        [
-            "v0.2.0-minimal-bundle.json",
-            "v0.2.0-multi-item-bundle.json",
-            "v0.2.0-signed-bundle.json",
-        ],
+        VALID_VECTORS,
     )
     def test_chain_count_matches_items(self, vector_name):
         """Hash chain length must equal items array length."""
@@ -228,11 +216,7 @@ class TestBundleStructure:
 
     @pytest.mark.parametrize(
         "vector_name",
-        [
-            "v0.2.0-minimal-bundle.json",
-            "v0.2.0-multi-item-bundle.json",
-            "v0.2.0-signed-bundle.json",
-        ],
+        VALID_VECTORS,
     )
     def test_chain_items_bound_correctly(self, vector_name):
         """Chain entries must bind to corresponding items."""
@@ -358,11 +342,7 @@ class TestChainIntegrity:
 
     @pytest.mark.parametrize(
         "vector_name",
-        [
-            "v0.2.0-minimal-bundle.json",
-            "v0.2.0-multi-item-bundle.json",
-            "v0.2.0-signed-bundle.json",
-        ],
+        VALID_VECTORS,
     )
     def test_chain_linkage_valid(self, vector_name):
         """Each chain entry's previous_hash must match the prior chain_hash."""
@@ -405,6 +385,20 @@ class TestSignatures:
 
         for sig in bundle.get("signatures", []):
             assert sig.get("algorithm") in allowed, f"Invalid algorithm: {sig.get('algorithm')}"
+
+
+class TestSanitization:
+    """Tests for sanitization metadata in v0.2.1 bundles."""
+
+    def test_sanitized_vector_has_required_contract_fields(self):
+        bundle = load_golden_vector("v0.2.1-sanitized-bundle.json")
+        sanitization = bundle.get("sanitization", {})
+
+        assert sanitization.get("engine_name") == "pii-shield"
+        assert sanitization.get("token_format") == "[HIDDEN:<id>]"
+        assert isinstance(sanitization.get("redaction_count"), int)
+        assert isinstance(sanitization.get("redactions_by_type"), dict)
+        assert sanitization.get("status") == "sanitized"
 
 
 # ============================================================================

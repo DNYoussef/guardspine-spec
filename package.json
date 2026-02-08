@@ -1,6 +1,6 @@
 {
   "name": "guardspine-spec",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "GuardSpine Evidence Bundle Specification and Golden Vectors",
   "type": "module",
   "scripts": {

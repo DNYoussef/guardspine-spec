@@ -1,0 +1,39 @@
+{
+  "bundle_id": "00000000-0000-4000-8000-000000000201",
+  "version": "0.2.1",
+  "created_at": "2026-02-08T10:30:00.000Z",
+  "items": [
+    {
+      "item_id": "item-001",
+      "sequence": 0,
+      "content_type": "guardspine/audit_event",
+      "content": {
+        "event_type": "invalid_sanitization",
+        "message": "This should fail schema validation"
+      },
+      "content_hash": "sha256:35e7c4820720acdad57a0ac3fff93cb1bbb1541e8eab76edff8d1b0fffddb06d"
+    }
+  ],
+  "immutability_proof": {
+    "hash_chain": [
+      {
+        "sequence": 0,
+        "item_id": "item-001",
+        "content_type": "guardspine/audit_event",
+        "content_hash": "sha256:35e7c4820720acdad57a0ac3fff93cb1bbb1541e8eab76edff8d1b0fffddb06d",
+        "previous_hash": "genesis",
+        "chain_hash": "sha256:92194b6ed430176311ee13ae769d7a5ba8733e46e5760be161463a66d3422a55"
+      }
+    ],
+    "root_hash": "sha256:177381917fcdf66488e45ce74ddccafee81338be7709709443876ab9e385f989"
+  },
+  "sanitization": {
+    "engine_name": "pii-shield",
+    "method": "entropy+hmac",
+    "token_format": "[HIDDEN:oops]",
+    "salt_fingerprint": "not-a-sha256",
+    "redaction_count": -1,
+    "redactions_by_type": "email",
+    "status": "done"
+  }
+}

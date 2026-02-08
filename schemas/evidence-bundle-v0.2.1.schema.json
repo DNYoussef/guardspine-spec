@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://guardspine.dev/schemas/evidence-bundle",
-  "title": "GuardSpine Evidence Bundle (Compatibility Schema)",
-  "description": "Compatibility schema accepting v0.2.0 and v0.2.1 bundles.",
+  "$id": "https://guardspine.dev/schemas/evidence-bundle/v0.2.1",
+  "title": "GuardSpine Evidence Bundle",
+  "description": "Canonical tamper-evident evidence bundle format with optional sanitization attestations.",
   "type": "object",
   "required": ["bundle_id", "version", "created_at", "items", "immutability_proof"],
   "properties": {
@@ -13,7 +13,7 @@
     },
     "version": {
       "type": "string",
-      "enum": ["0.2.0", "0.2.1"],
+      "const": "0.2.1",
       "description": "Schema version."
     },
     "created_at": {

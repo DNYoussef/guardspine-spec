@@ -1,6 +1,6 @@
 # GuardSpine Evidence Bundle Specification
 
-> **Version**: 0.2.0
+> **Version**: 0.2.1
 > **License**: Apache 2.0
 > **Status**: Stable
 
@@ -62,7 +62,7 @@ A GuardSpine Evidence Bundle (v0.2.0) contains:
 ```
 EvidenceBundle
 +-- bundle_id          # Unique identifier (UUID)
-+-- version            # "0.2.0"
++-- version            # "0.2.0" | "0.2.1"
 +-- created_at         # ISO 8601 timestamp
 +-- items[]            # Evidence items
 |   +-- item_id
@@ -88,6 +88,12 @@ EvidenceBundle
 |   +-- content_hash
 +-- metadata           # Bundle metadata
 |   +-- retention      # Retention policy
++-- sanitization       # Optional redaction/sanitization attestation (v0.2.1+)
+|   +-- engine_name
+|   +-- engine_version
+|   +-- method
+|   +-- token_format   # [HIDDEN:<id>]
+|   +-- redaction_count
 +-- audit_trail        # Who accessed/modified
 ```
 
@@ -102,6 +108,7 @@ A bundle is **VERIFIED** if and only if:
 5. **Content Hashes Valid**: Each item's `content_hash` matches SHA-256 of its canonical JSON `content`
 6. **Signatures Valid**: Each signature verifies against the signer's public key
 7. **No Gaps**: Hash chain sequence numbers are contiguous starting from 0
+8. **Sanitization Contract (Optional)**: If `sanitization` is present, it matches schema rules (v0.2.1+)
 
 **Important**: The chain links via `chain_hash`, not `content_hash`. This is a common implementation error.
 
@@ -125,6 +132,18 @@ A bundle is **VERIFIED** if and only if:
 | `ed25519` | Default, fast, secure |
 | `rsa-sha256` | Legacy system compatibility |
 | `ecdsa-p256` | FIPS compliance |
+
+## Sanitization Attestation (v0.2.1)
+
+Bundles may optionally include:
+
+- `sanitization.engine_name` / `engine_version`
+- `sanitization.method` (`deterministic_hmac`, `provider_native`, `entropy+hmac`)
+- `sanitization.token_format` (`[HIDDEN:<id>]`)
+- `sanitization.redaction_count` and `redactions_by_type`
+- `sanitization.status` (`sanitized`, `none`, `partial`, `error`)
+
+This field documents redaction behavior for downstream policy checks.
 
 ## AI Signer Identity
 
