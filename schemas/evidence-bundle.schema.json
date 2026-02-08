@@ -172,6 +172,7 @@
       }
     },
     "SanitizationSummary": {
+      "description": "Must be kept in sync with evidence-bundle-v0.2.1.schema.json",
       "type": "object",
       "required": [
         "engine_name",
@@ -190,6 +191,7 @@
         },
         "engine_version": {
           "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
           "description": "Sanitization engine semantic version."
         },
         "method": {

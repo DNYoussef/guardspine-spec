@@ -57,7 +57,7 @@ guardspine-verify evidence-bundle-2024-01-15.zip
 
 ## Bundle Structure
 
-A GuardSpine Evidence Bundle (v0.2.0) contains:
+A GuardSpine Evidence Bundle (v0.2.x) contains:
 
 ```
 EvidenceBundle
@@ -101,7 +101,7 @@ EvidenceBundle
 
 A bundle is **VERIFIED** if and only if:
 
-1. **Version Valid**: Bundle `version` field equals `"0.2.0"`
+1. **Version Valid**: Bundle `version` field equals `"0.2.0"` or `"0.2.1"`
 2. **Hash Chain Valid**: Each entry's `previous_hash` matches the prior entry's `chain_hash` (NOT content_hash)
 3. **Chain Binding**: Hash chain entries map 1:1 to items (same count, same item_id, same content_hash, same order)
 4. **Root Hash Valid**: Computed Merkle root matches `immutability_proof.root_hash`
@@ -144,6 +144,18 @@ Bundles may optionally include:
 - `sanitization.status` (`sanitized`, `none`, `partial`, `error`)
 
 This field documents redaction behavior for downstream policy checks.
+
+### PII-Shield Integration
+
+The sanitization attestation schema was designed in collaboration with [PII-Shield](https://github.com/aragossa/pii-shield), a Go-based Kubernetes sidecar that detects secrets via Shannon entropy analysis and replaces them with deterministic HMAC tokens.
+
+**Why**: Evidence bundles may contain secrets or PII from code diffs, approval messages, or integration payloads. The sanitization attestation block provides a standardized way for any implementation to document what was redacted, how, and by which engine -- enabling downstream verifiers to validate the sanitization contract.
+
+**Where**: The `sanitization` schema is defined in:
+- `schemas/evidence-bundle.schema.json` (v0.2.0 base)
+- `schemas/evidence-bundle-v0.2.1.schema.json` (v0.2.1 with full sanitization support)
+
+**How implementations use it**: Any bundle producer (codeguard-action, rlm-docsync, adapter-webhook, local-council) that sanitizes content before sealing populates the `sanitization` block. The verifier (guardspine-verify) checks that `redaction_count` matches actual token count and that `engine_version` is valid semver.
 
 ## AI Signer Identity
 
@@ -205,6 +217,7 @@ The `fixtures/golden-vectors/` directory contains:
 | `v0.2.0-minimal-bundle.json` | Smallest valid bundle (1 item) |
 | `v0.2.0-multi-item-bundle.json` | Bundle with 5 items |
 | `v0.2.0-signed-bundle.json` | Bundle with Ed25519 signature |
+| `v0.2.1-sanitized-bundle.json` | Bundle with sanitization attestation |
 | `malformed/*.json` | Invalid bundles that MUST be rejected |
 
 The `examples/` directory contains illustrative examples:

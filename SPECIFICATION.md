@@ -131,6 +131,16 @@ producers SHOULD include a `sanitization` object:
 `sanitization` is informational attestation metadata and is not itself a cryptographic proof
 of redaction completeness. Consumers MAY apply additional policy checks.
 
+The `input_hash` field MUST contain the SHA-256 hash of the content before
+sanitization was applied. The `output_hash` field MUST contain the SHA-256
+hash of the content after sanitization. When `applied_to` includes
+"evidence_bundle", the `output_hash` covers the serialized bundle content
+(excluding the `sanitization` block itself) after all redactions.
+Individual `content_hash` values on items reflect their post-sanitization
+content. The relationship is: items are sanitized first, then their
+content_hash values are computed over the sanitized content, then the
+hash chain and root_hash are built.
+
 ---
 
 ## 3. Canonical JSON (RFC 8785 Compatible)
@@ -178,7 +188,16 @@ root_hash = SHA256(concat(chain_hash[0], chain_hash[1], ...))
 3. Recompute each `chain_hash` and validate `previous_hash` linkage.
 4. Recompute `root_hash` from all chain hashes and compare.
 5. If signatures present, verify against bundle content without `signatures`.
-6. If `sanitization` present, validate contract shape and token format policy.
+6. If `sanitization` is present:
+   a. Validate the `sanitization` object against the SanitizationSummary
+      schema (all required fields present and correctly typed).
+   b. Verify `token_format` matches the canonical pattern `[HIDDEN:<id>]`.
+   c. If `redaction_count` > 0, scan item content strings for tokens
+      matching `[HIDDEN:<identifier>]` and verify the count matches
+      `redaction_count`.
+   d. If `output_hash` is present, verify it matches the SHA-256 hash
+      of the sanitized content.
+   e. Verify `sum(redactions_by_type.values()) == redaction_count`.
 
 If any step fails, the bundle is invalid.
 

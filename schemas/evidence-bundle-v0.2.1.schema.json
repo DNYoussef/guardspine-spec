@@ -172,6 +172,7 @@
       }
     },
     "SanitizationSummary": {
+      "description": "Must be kept in sync with evidence-bundle.schema.json",
       "type": "object",
       "required": [
         "engine_name",
@@ -190,6 +191,7 @@
         },
         "engine_version": {
           "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
           "description": "Sanitization engine semantic version."
         },
         "method": {
@@ -200,7 +202,7 @@
         "token_format": {
           "type": "string",
           "pattern": "^\\[HIDDEN:<id>\\]$",
-          "description": "Declared placeholder format for redaction tokens."
+          "description": "Template format declaration. The literal '<id>' placeholder is replaced with HMAC-derived identifiers at runtime. Actual tokens in content match [HIDDEN:<identifier>]."
         },
         "salt_fingerprint": {
           "type": "string",
