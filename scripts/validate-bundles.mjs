@@ -2,7 +2,7 @@
 /**
  * GuardSpine Evidence Bundle Schema Validator
  *
- * Validates bundles against the compatibility JSON Schema (v0.2.0 + v0.2.1) using AJV.
+ * Validates bundles against the compatibility JSON Schema (v0.2.0) using AJV.
  *
  * Usage:
  *   npm run validate             # Validate all
