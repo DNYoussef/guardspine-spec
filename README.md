@@ -157,6 +157,20 @@ The sanitization attestation schema was designed in collaboration with [PII-Shie
 
 **How implementations use it**: Any bundle producer (codeguard-action, rlm-docsync, adapter-webhook, local-council) that sanitizes content before sealing populates the `sanitization` block. The verifier (guardspine-verify) checks that `redaction_count` matches actual token count and that `engine_version` is valid semver.
 
+### Cryptographic Field Registry
+
+The spec defines a **crypto field registry** that identifies which JSON fields contain intentionally high-entropy values (hashes, signatures) vs. fields that might contain accidental secrets. This matters because PII-Shield's entropy detector will flag SHA-256 hashes as secrets without it.
+
+Reserved field patterns: `*_hash`, `*_digest`, `*_checksum`, `*_hmac`, `*_signature`, `signature_value`, `signed_hash`.
+
+### PII_SALT Requirements
+
+The HMAC salt used for deterministic redaction (`[HIDDEN:<id>]` tokens) **must be org-wide and immutable**. If different services use different salts, the same secret produces different tokens across bundles, breaking cross-bundle correlation and audit trail consistency. See `SPECIFICATION.md` for the full contract.
+
+### Z-Inspection Integration
+
+The spec includes a guide for integrating GuardSpine evidence bundles with the [Z-Inspection](https://z-inspection.org/) process for trustworthy AI assessment. Evidence bundles provide the artifact trail that Z-Inspection panels need for socio-technical evaluation. See `docs/z-inspection-guide.md`.
+
 ## AI Signer Identity
 
 For AI-generated evidence, signers include model provenance:
