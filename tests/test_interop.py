@@ -35,20 +35,23 @@ VALID_VECTORS = [
 ]
 SUPPORTED_VERSIONS = {"0.2.0", "0.2.1"}
 
-# Producer configurations - paths are relative to D:\Projects
+# Producer configurations - resolve from env var or sibling directories
+import os
+_PROJECTS_ROOT = Path(os.environ.get("GUARDSPINE_PROJECTS_ROOT", str(SPEC_ROOT.parent)))
+
 PRODUCERS = {
     "guardspine-kernel": {
-        "path": "D:/Projects/guardspine-kernel",
+        "path": str(_PROJECTS_ROOT / "guardspine-kernel"),
         "language": "node",
         "seal_cmd": "node -e \"const k = require('./dist/index.js'); const items = JSON.parse(process.argv[1]); console.log(JSON.stringify(k.sealBundle(items)));\"",
     },
     "guardspine-kernel-py": {
-        "path": "D:/Projects/guardspine-kernel-py",
+        "path": str(_PROJECTS_ROOT / "guardspine-kernel-py"),
         "language": "python",
         "seal_cmd": "python -c \"from guardspine_kernel import seal_bundle; import json, sys; items = json.loads(sys.argv[1]); print(json.dumps(seal_bundle(items)))\"",
     },
     "guardspine-product": {
-        "path": "D:/Projects/guardspine-product",
+        "path": str(_PROJECTS_ROOT / "guardspine-product"),
         "language": "python",
         "seal_cmd": None,  # Uses EvidenceBundle class
     },
