@@ -255,7 +255,22 @@ The `PII_SALT` value used for deterministic HMAC redaction MUST be:
 3. **Recorded**: The SHA-256 fingerprint of the salt MUST be stored in
    the bundle's `sanitization.salt_fingerprint` field.
 
-### 8.2 Sanitization Ordering
+### 8.2 Execution Modes
+
+PII-Shield supports two execution modes:
+
+| Mode | Runtime | Description |
+|------|---------|-------------|
+| **WASM** (recommended) | `wasmtime` (Python), `node:wasm` (Node.js) | In-process via `pii-shield.wasm`. No network, no sidecar. |
+| **HTTP** (legacy) | HTTP client | External sidecar or Kubernetes service. |
+
+WASM mode eliminates the HTTP sidecar dependency. The WASM binary runs in a
+WASI sandbox with no network or filesystem access beyond stdin/stdout.
+Implementations MUST use fail-closed behavior: if the WASM runtime fails to
+load or execute, the pipeline MUST halt rather than forwarding unsanitized
+content.
+
+### 8.3 Sanitization Ordering
 
 Sanitization MUST occur BEFORE hash computation:
 

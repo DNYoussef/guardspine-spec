@@ -228,11 +228,14 @@ The `fixtures/golden-vectors/` directory contains:
 
 | Vector | Description |
 |--------|-------------|
+| `v0.2.0.json` | Canonical cross-language parity vector (2 items, expected hashes) |
 | `v0.2.0-minimal-bundle.json` | Smallest valid bundle (1 item) |
 | `v0.2.0-multi-item-bundle.json` | Bundle with 5 items |
 | `v0.2.0-signed-bundle.json` | Bundle with Ed25519 signature |
 | `v0.2.1-sanitized-bundle.json` | Bundle with sanitization attestation |
 | `malformed/*.json` | Invalid bundles that MUST be rejected |
+
+`v0.2.0.json` is the **primary cross-implementation test vector**. All language implementations (TypeScript, Python) MUST produce byte-identical hashes for the items, chain links, and root hash defined in this fixture.
 
 The `examples/` directory contains illustrative examples:
 
