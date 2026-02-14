@@ -1,0 +1,76 @@
+[
+    {
+        "id": "vector-1-basic",
+        "description": "Basic bundle with 2 items and a fixed salt",
+        "inputs": {
+            "comment": "Salt is not used in v0.2.0 hash chain construction",
+            "items": [
+                {
+                    "kind": "diff",
+                    "summary": "Fix validation logic",
+                    "content": "diff --git a/foo b/foo\nindex 123..456 100644\n--- a/foo\n+++ b/foo\n@@ -1 +1 @@\n-bar\n+baz"
+                },
+                {
+                    "kind": "metadata",
+                    "summary": "Commit metadata",
+                    "content": {
+                        "author": "octocat",
+                        "repo": "guardspine/test-repo",
+                        "sha": "deadbeef"
+                    }
+                }
+            ]
+        },
+        "expected": {
+            "items": [
+                {
+                    "item_id": "item-0-diff",
+                    "content_type": "guardspine/webhook/diff",
+                    "content": {
+                        "kind": "diff",
+                        "summary": "Fix validation logic",
+                        "content": "diff --git a/foo b/foo\nindex 123..456 100644\n--- a/foo\n+++ b/foo\n@@ -1 +1 @@\n-bar\n+baz"
+                    },
+                    "content_hash": "sha256:a0db4dcaaa81063c31ca0d90bfb283630b5d7503ec4caf53941a7780603a3833",
+                    "sequence": 0
+                },
+                {
+                    "item_id": "item-1-metadata",
+                    "content_type": "guardspine/webhook/metadata",
+                    "content": {
+                        "kind": "metadata",
+                        "summary": "Commit metadata",
+                        "content": {
+                            "author": "octocat",
+                            "repo": "guardspine/test-repo",
+                            "sha": "deadbeef"
+                        }
+                    },
+                    "content_hash": "sha256:bf024cf9bffec8492206ddb2947efffdd44e08ba58c72d897da777c942c93c8f",
+                    "sequence": 1
+                }
+            ],
+            "immutability_proof": {
+                "root_hash": "sha256:6707de87bbfeebe084fcfbdeb59881f204f5d7f88c5280e38a9cb6cbd7da6ddb",
+                "hash_chain": [
+                    {
+                        "sequence": 0,
+                        "item_id": "item-0-diff",
+                        "content_type": "guardspine/webhook/diff",
+                        "content_hash": "sha256:a0db4dcaaa81063c31ca0d90bfb283630b5d7503ec4caf53941a7780603a3833",
+                        "previous_hash": "genesis",
+                        "chain_hash": "sha256:261201ad2b073913ffa7506022c449a74e20c7aa9fb7e8509ab568cbd8b0278c"
+                    },
+                    {
+                        "sequence": 1,
+                        "item_id": "item-1-metadata",
+                        "content_type": "guardspine/webhook/metadata",
+                        "content_hash": "sha256:bf024cf9bffec8492206ddb2947efffdd44e08ba58c72d897da777c942c93c8f",
+                        "previous_hash": "sha256:261201ad2b073913ffa7506022c449a74e20c7aa9fb7e8509ab568cbd8b0278c",
+                        "chain_hash": "sha256:633d2ace9363d25fbf0d85c93c3c2a584bf71d4f9ac80ffe374e4c36a9717bd8"
+                    }
+                ]
+            }
+        }
+    }
+]
