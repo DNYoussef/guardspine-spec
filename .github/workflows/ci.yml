@@ -1,0 +1,91 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  schema-validation:
+    name: AJV Schema Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate all bundles against JSON Schema
+        run: npm run validate
+
+  pytest-python-parity:
+    name: Python Parity + Schema Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install test dependencies
+        run: pip install -r requirements-test.txt
+
+      # Pin to a known-good commit so upstream changes cannot break this gate.
+      - name: Install guardspine-kernel-py (pinned)
+        run: pip install git+https://github.com/DNYoussef/guardspine-kernel-py.git@7d952dcd7eb92f764b57720e15484cf18926ccff
+
+      - name: Run Python parity + schema tests
+        run: pytest tests/ -v --tb=short
+
+  pytest-cross-language:
+    name: Cross-Language Hash Parity
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install test dependencies
+        run: pip install -r requirements-test.txt
+
+      - name: Install guardspine-kernel-py (pinned)
+        run: pip install git+https://github.com/DNYoussef/guardspine-kernel-py.git@7d952dcd7eb92f764b57720e15484cf18926ccff
+
+      # Check out and build the TS kernel so Node parity tests can find it.
+      # The test suite looks for "guardspine-kernel" under GUARDSPINE_PROJECTS_ROOT.
+      - name: Check out guardspine-kernel (pinned)
+        uses: actions/checkout@v4
+        with:
+          repository: DNYoussef/guardspine-kernel
+          ref: 72ff059c912ec68eec6a2471831841075461df2b
+          path: siblings/guardspine-kernel
+
+      - name: Build guardspine-kernel
+        run: cd siblings/guardspine-kernel && npm ci && npm run build
+
+      - name: Run cross-language parity tests
+        run: pytest tests/ -v --tb=short -k "Parity or Interop"
+        env:
+          GUARDSPINE_PROJECTS_ROOT: ${{ github.workspace }}/siblings

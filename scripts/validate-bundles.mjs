@@ -110,10 +110,11 @@ function validateBundle(filePath, expectValid = true) {
   }
 }
 
-// Files that are not bundles (metadata, lookup tables, etc.)
+// Files that are not bundles (metadata, lookup tables, parity vectors, etc.)
 const NON_BUNDLE_FILES = [
   'expected-hashes.json',
   'expected-chain.json',
+  'v0.2.0.json',  // parity-vector fixture, not a bundle
 ];
 
 /**
