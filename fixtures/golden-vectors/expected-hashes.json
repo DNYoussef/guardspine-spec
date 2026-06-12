@@ -23,6 +23,25 @@
     {
       "input": {"bool": true, "num": 42, "str": "hello"},
       "expected_output": "{\"bool\":true,\"num\":42,\"str\":\"hello\"}"
+    },
+    {
+      "input": {"max_safe": 9007199254740991},
+      "expected_output": "{\"max_safe\":9007199254740991}"
+    },
+    {
+      "input": {"tiny": 1e-7},
+      "expected_output": "{\"tiny\":1e-7}"
+    },
+    {
+      "input": {"a": 0, "\ue000": 1, "\ud800\udc00": 2},
+      "expected_output": "{\"a\":0,\"\ue000\":1,\"\ud800\udc00\":2}"
+    }
+  ],
+
+  "canonical_json_rejections": [
+    {
+      "input": 9007199254740992,
+      "error_contains": "safe integer"
     }
   ],
 
@@ -34,8 +53,36 @@
     {
       "content": {},
       "expected_hash": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "content": null,
+      "expected_hash": "sha256:74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "content": {"max_safe": 9007199254740991},
+      "expected_hash": "sha256:64320c252cc1e78a180d51f9ac73a9d6db9800f205cd2d6d5980bfd2da96383f"
+    },
+    {
+      "content": {"tiny": 1e-7},
+      "expected_hash": "sha256:b00f6aefd44a07cefc0befa550f958d8f29b3433d81496569ea98d93da280050"
+    },
+    {
+      "content": {"a": 0, "\ue000": 1, "\ud800\udc00": 2},
+      "expected_hash": "sha256:e5a0ebb184b1aa6953b5c1a11538b1b4371ae4a55d9723f96e637d91960e5b75"
     }
   ],
+
+  "v0.2.0-adversarial-bundle.json": {
+    "root_hash": "sha256:cfd143a7456c721e2fdd67e3295f86f61ddb3833f7911d52495f6fdb9e7ae779",
+    "chain_length": 4,
+    "item_count": 4,
+    "chain_hashes": [
+      "sha256:997cae4493270766448ba38e0fc3ba76f0ce39e7452f76fcf675a01925631e24",
+      "sha256:01579c827c8e8bf1b7e49b9106a62a5e6ba72cebbd0ca6df3f58d059f22510dc",
+      "sha256:65b8fc4d186b7d297413e9da889ff440894a2956a17b94395395330e6952066b",
+      "sha256:6457f1d92cd11f3c310beeef0bf90909cd80966ad489440cd710c7e692ca36be"
+    ]
+  },
 
   "v0.2.0-minimal-bundle.json": {
     "root_hash": "sha256:177381917fcdf66488e45ce74ddccafee81338be7709709443876ab9e385f989",

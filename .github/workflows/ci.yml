@@ -45,7 +45,7 @@ jobs:
 
       # Pin to a known-good commit so upstream changes cannot break this gate.
       - name: Install guardspine-kernel-py (pinned)
-        run: pip install git+https://github.com/DNYoussef/guardspine-kernel-py.git@7d952dcd7eb92f764b57720e15484cf18926ccff
+        run: pip install git+https://github.com/DNYoussef/guardspine-kernel-py.git@97c437a8040604e6ebcfd821fb28d0582ea0198b
 
       - name: Run Python parity + schema tests
         run: pytest tests/ -v --tb=short
@@ -71,7 +71,7 @@ jobs:
         run: pip install -r requirements-test.txt
 
       - name: Install guardspine-kernel-py (pinned)
-        run: pip install git+https://github.com/DNYoussef/guardspine-kernel-py.git@7d952dcd7eb92f764b57720e15484cf18926ccff
+        run: pip install git+https://github.com/DNYoussef/guardspine-kernel-py.git@97c437a8040604e6ebcfd821fb28d0582ea0198b
 
       # Check out and build the TS kernel so Node parity tests can find it.
       # The test suite looks for "guardspine-kernel" under GUARDSPINE_PROJECTS_ROOT.
@@ -79,7 +79,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: DNYoussef/guardspine-kernel
-          ref: 72ff059c912ec68eec6a2471831841075461df2b
+          ref: 7473d4d3f7259f4ae5100e4061d231beeea7e608
           path: siblings/guardspine-kernel
 
       - name: Build guardspine-kernel
