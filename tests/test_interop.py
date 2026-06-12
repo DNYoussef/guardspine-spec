@@ -14,6 +14,7 @@ Usage:
 """
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -31,12 +32,12 @@ VALID_VECTORS = [
     "v0.2.0-minimal-bundle.json",
     "v0.2.0-multi-item-bundle.json",
     "v0.2.0-signed-bundle.json",
+    "v0.2.0-adversarial-bundle.json",
     "v0.2.1-sanitized-bundle.json",
 ]
 SUPPORTED_VERSIONS = {"0.2.0", "0.2.1"}
 
 # Producer configurations - resolve from env var or sibling directories
-import os
 _PROJECTS_ROOT = Path(os.environ.get("GUARDSPINE_PROJECTS_ROOT", str(SPEC_ROOT.parent)))
 
 PRODUCERS = {
@@ -85,6 +86,10 @@ def load_golden_vector(name: str) -> Dict[str, Any]:
     return json.loads(path.read_text())
 
 
+def load_expected_hashes() -> Dict[str, Any]:
+    return load_golden_vector("expected-hashes.json")
+
+
 def run_command(cmd: str, cwd: Optional[str] = None, input_data: Optional[str] = None) -> tuple:
     """Run a shell command and return (stdout, stderr, returncode)."""
     result = subprocess.run(
@@ -129,6 +134,48 @@ def check_python_package(package: str) -> bool:
         return True
     except ImportError:
         return False
+
+
+def python_kernel_env() -> Dict[str, str]:
+    """Prefer the sibling source checkout so parity tests do not use a stale wheel."""
+    env = os.environ.copy()
+    kernel_src = Path(PRODUCERS["guardspine-kernel-py"]["path"]) / "src"
+    if kernel_src.exists():
+        existing = env.get("PYTHONPATH", "")
+        env["PYTHONPATH"] = str(kernel_src) + (os.pathsep + existing if existing else "")
+    return env
+
+
+def run_python_kernel(script: str, payload: Any) -> Dict[str, Any]:
+    result = subprocess.run(
+        [sys.executable, "-c", script, json.dumps(payload, ensure_ascii=False)],
+        capture_output=True,
+        text=True,
+        timeout=30,
+        env=python_kernel_env(),
+    )
+    if result.returncode != 0:
+        pytest.skip(f"Python kernel command failed: {result.stderr}")
+    return json.loads(result.stdout)
+
+
+def run_node_kernel(script: str, payload: Any) -> Dict[str, Any]:
+    producer = PRODUCERS["guardspine-kernel"]
+    producer_path = Path(producer["path"])
+    if not (check_node_available() and producer_path.exists() and (producer_path / "dist" / "index.js").exists()):
+        pytest.skip("guardspine-kernel dist not available")
+
+    result = subprocess.run(
+        ["node", "-e", script, json.dumps(payload, ensure_ascii=False)],
+        cwd=producer_path,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        timeout=30,
+    )
+    if result.returncode != 0:
+        pytest.skip(f"Node kernel command failed: {result.stderr}")
+    return json.loads(result.stdout)
 
 
 # ============================================================================
@@ -333,6 +380,121 @@ class TestHashParity:
         node_root = stdout.strip()
 
         assert py_root == node_root, f"Hash mismatch: Python={py_root}, Node={node_root}"
+
+
+PY_ADVERSARIAL_SCRIPT = r"""
+from guardspine_kernel import canonical_json, compute_content_hash, seal_bundle, verify_bundle
+import json
+import sys
+
+payload = json.loads(sys.argv[1])
+result = {
+    "canonical_json": [],
+    "canonical_json_rejections": [],
+    "content_hashes": [],
+}
+
+for case in payload["expected"]["canonical_json"]:
+    result["canonical_json"].append(canonical_json(case["input"]))
+
+for case in payload["expected"].get("canonical_json_rejections", []):
+    try:
+        canonical_json(case["input"])
+        result["canonical_json_rejections"].append({"rejected": False, "message": ""})
+    except Exception as exc:
+        result["canonical_json_rejections"].append({"rejected": True, "message": str(exc)})
+
+for case in payload["expected"]["content_hashes"]:
+    result["content_hashes"].append(compute_content_hash(case["content"]))
+
+bundle = payload["bundle"]
+verify_result = verify_bundle(bundle)
+sealed = seal_bundle(bundle["items"])
+result["bundle_valid"] = bool(verify_result.get("valid"))
+result["sealed_root_hash"] = sealed["immutability_proof"]["root_hash"]
+
+print(json.dumps(result, ensure_ascii=True))
+"""
+
+
+NODE_ADVERSARIAL_SCRIPT = r"""
+const k = require("./dist/index.js");
+const payload = JSON.parse(process.argv[1]);
+const result = {
+  canonical_json: [],
+  canonical_json_rejections: [],
+  content_hashes: [],
+};
+
+for (const testCase of payload.expected.canonical_json) {
+  result.canonical_json.push(k.canonicalJson(testCase.input));
+}
+
+for (const testCase of payload.expected.canonical_json_rejections ?? []) {
+  try {
+    k.canonicalJson(testCase.input);
+    result.canonical_json_rejections.push({ rejected: false, message: "" });
+  } catch (error) {
+    result.canonical_json_rejections.push({
+      rejected: true,
+      message: String(error && error.message ? error.message : error),
+    });
+  }
+}
+
+for (const testCase of payload.expected.content_hashes) {
+  result.content_hashes.push(k.computeContentHash(testCase.content));
+}
+
+const bundle = payload.bundle;
+const verifyResult = k.verifyBundle(bundle, { acceptProofVersions: ["v0.2.0"] });
+const sealed = k.sealBundle({ items: bundle.items }, { proofVersion: "v0.2.0" });
+result.bundle_valid = Boolean(verifyResult.valid);
+result.sealed_root_hash = sealed.immutabilityProof.root_hash;
+
+console.log(JSON.stringify(result));
+"""
+
+
+class TestAdversarialKernelParity:
+    """Adversarial vectors must run through both canonical kernels."""
+
+    def _payload(self) -> Dict[str, Any]:
+        return {
+            "expected": load_expected_hashes(),
+            "bundle": load_golden_vector("v0.2.0-adversarial-bundle.json"),
+        }
+
+    @pytest.mark.skipif(not check_python_package("guardspine_kernel"), reason="guardspine-kernel-py not installed")
+    def test_adversarial_vectors_match_python_kernel(self):
+        payload = self._payload()
+        result = run_python_kernel(PY_ADVERSARIAL_SCRIPT, payload)
+        self._assert_adversarial_result(payload, result)
+
+    @pytest.mark.skipif(not check_node_available(), reason="Node.js not available")
+    def test_adversarial_vectors_match_typescript_kernel(self):
+        payload = self._payload()
+        result = run_node_kernel(NODE_ADVERSARIAL_SCRIPT, payload)
+        self._assert_adversarial_result(payload, result)
+
+    def _assert_adversarial_result(self, payload: Dict[str, Any], result: Dict[str, Any]) -> None:
+        expected = payload["expected"]
+
+        assert result["canonical_json"] == [
+            case["expected_output"] for case in expected["canonical_json"]
+        ]
+
+        rejections = result["canonical_json_rejections"]
+        assert len(rejections) == len(expected["canonical_json_rejections"])
+        for actual, case in zip(rejections, expected["canonical_json_rejections"]):
+            assert actual["rejected"] is True
+            assert case["error_contains"] in actual["message"]
+
+        assert result["content_hashes"] == [
+            case["expected_hash"] for case in expected["content_hashes"]
+        ]
+        assert result["bundle_valid"] is True
+        assert result["sealed_root_hash"] == expected["v0.2.0-adversarial-bundle.json"]["root_hash"]
 
 
 # ============================================================================
